@@ -46,7 +46,7 @@ struct PluginInfo
 
 typedef void (*GetInfoFunc)(struct PluginInfo *structPtr);
 
-typedef struct Renderer *(*PassRendererFunc)();
+typedef void (*PassRendererFunc)(struct Renderer *renderer);
 
 typedef void (*OnTargetMouseClickFunc)  (RenderTarget target, Vec2f mousePos);
 typedef void (*OnTargetMouseMoveFunc)   (RenderTarget target, Vec2f mousePos);
