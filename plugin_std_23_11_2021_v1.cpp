@@ -44,25 +44,17 @@ union PRGBA {
     }
 
     PRGBA();
-    PRGBA(int x);
-    PRGBA(uint32_t x);
-    PRGBA(unsigned char r_, unsigned char g_, unsigned char b_, unsigned char a_ = 255);
+    PRGBA(const int x);
+    PRGBA(const uint32_t x);
+    PRGBA(const unsigned char r_, const unsigned char g_, const unsigned char b_, const unsigned char a_ = 255);
 
-    // invert
-    inline PRGBA operator-() const {
-        return PRGBA{255 - r, 255 - g, 255 - b, a};
-    }
+    PRGBA operator-() const; // negative
 
-    // Are these supposed to clamp? Not sure, not gonna implement yet
     PRGBA operator+(const PRGBA &other) const;
     PRGBA operator-(const PRGBA &other) const;
 
     PRGBA operator/(float coef) const;
     PRGBA operator*(float coef) const;
-
-    inline friend PRGBA operator*(float coef, const PRGBA &color) {
-        return color * coef;
-    }
 };
 
 
@@ -150,14 +142,16 @@ struct AppInterface {
     uint32_t std_version;
     void *reserved;
 
-    bool (*enable_extension)(const char *name); // enables specified extension
-    void *(*get_extension_func)(const char *name); // returns given function, if it is implemented in some enabled extension
+    void *(*get_extension_func)(const char *name); // runs given func with given args, interprenting them freely
 
     struct {
         void (*log)(const char *, ...);
         double (*get_absolute_time)();
 
         void (*release_pixels)(PRGBA *);
+
+        PRGBA (*get_color)();
+        float (*get_size)();
     } general;
 
     struct {
@@ -166,17 +160,17 @@ struct AppInterface {
 	} target;
 
     struct {
-        void (*circle)(PVec2f, float, PRGBA, *PRenderMode);
-        void (*line)(PVec2f, PVec2f, PRGBA, *PRenderMode);
-        void (*triangle)(PVec2f, PVec2f, PVec2f, float, PRGBA, *PRenderMode);
-        void (*rectangle)(PVec2f, PVec2f, float, PRGBA, *PRenderMode);
+        void (*circle)(PVec2f, float, PRGBA, const *PRenderMode);
+        void (*line)(PVec2f, PVec2f, PRGBA, const *PRenderMode);
+        void (*triangle)(PVec2f, PVec2f, PVec2f, PRGBA, const *PRenderMode);
+        void (*rectangle)(PVec2f, PVec2f, PRGBA, const *PRenderMode);
 
-        void (*pixels)(PVec2f position, PRGBA *data, size_t width, size_t height, *PRenderMode);
+        void (*pixels)(PVec2f position, const PRGBA *data, size_t width, size_t height, const *PRenderMode);
     } render;
 
     // set everything to nullptr here if you don't support shaders
     struct {
-        void (*apply)(void *shader, *PRenderMode);
+        void (*apply)(void *shader, const *PRenderMode);
         void *(*compile)(const char *code);
         void (*release)(void *);
 
@@ -189,3 +183,7 @@ struct AppInterface {
         void (*set_uniform)(const char *name, void *texture);
     } shader;
 };
+
+// this function is defined only in plugin!
+
+struct PluginInterface *get_plugin_interface();
