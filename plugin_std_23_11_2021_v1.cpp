@@ -44,17 +44,25 @@ union PRGBA {
     }
 
     PRGBA();
-    PRGBA(const int x);
-    PRGBA(const uint32_t x);
-    PRGBA(const unsigned char r_, const unsigned char g_, const unsigned char b_, const unsigned char a_ = 255);
+    PRGBA(int x);
+    PRGBA(uint32_t x);
+    PRGBA(unsigned char r_, unsigned char g_, unsigned char b_, unsigned char a_ = 255);
 
-    PRGBA operator-() const; // negative
+    // invert
+    inline PRGBA operator-() const {
+        return PRGBA{255 - r, 255 - g, 255 - b, a};
+    }
 
+    // Are these supposed to clamp? Not sure, not gonna implement yet
     PRGBA operator+(const PRGBA &other) const;
     PRGBA operator-(const PRGBA &other) const;
 
     PRGBA operator/(float coef) const;
     PRGBA operator*(float coef) const;
+
+    inline friend PRGBA operator*(float coef, const PRGBA &color) {
+        return color * coef;
+    }
 };
 
 
