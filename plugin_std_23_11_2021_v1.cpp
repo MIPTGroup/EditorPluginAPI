@@ -57,6 +57,10 @@ union PRGBA {
     PRGBA operator*(float coef) const;
 };
 
+enum PluginStatus {
+    PLUGIN_OK,
+    PLIGIN_ERR
+};
 
 enum PluginType {
     PPT_EFFECT,
