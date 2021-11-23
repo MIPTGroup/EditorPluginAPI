@@ -150,7 +150,8 @@ struct AppInterface {
     uint32_t std_version;
     void *reserved;
 
-    void *(*get_extension_func)(const char *name); // runs given func with given args, interprenting them freely
+    bool (*enable_extension)(const char *name); // enables specified extension
+    void *(*get_extension_func)(const char *name); // returns given function, if it is implemented in some enabled extension
 
     struct {
         void (*log)(const char *, ...);
