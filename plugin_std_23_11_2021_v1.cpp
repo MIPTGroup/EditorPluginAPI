@@ -48,13 +48,21 @@ union PRGBA {
     PRGBA(const uint32_t x);
     PRGBA(const unsigned char r_, const unsigned char g_, const unsigned char b_, const unsigned char a_ = 255);
 
-    PRGBA operator-() const; // negative
+    // invert
+    inline PRGBA operator-() const {
+        return PRGBA{255 - r, 255 - g, 255 - b, a};
+    }
 
+    // Are these supposed to clamp? Not sure, not gonna implement yet
     PRGBA operator+(const PRGBA &other) const;
     PRGBA operator-(const PRGBA &other) const;
 
     PRGBA operator/(float coef) const;
     PRGBA operator*(float coef) const;
+
+    inline friend PRGBA operator*(float coef, const PRGBA &color) {
+        return color * coef;
+    }
 };
 
 enum PPluginStatus {
@@ -113,7 +121,8 @@ struct PPluginInterface {
     uint32_t std_version;
     void *reserved;
 
-    void *(*get_extension_func)(const char *name); // runs given func with given args, interprenting them freely
+    bool (*enable_extension)(const char *name); // enables specified extension
+    void *(*get_extension_func)(const char *name); // returns given function, if it is implemented in some enabled extension
 
     struct {
         const PPluginInfo *(*get_info)();
