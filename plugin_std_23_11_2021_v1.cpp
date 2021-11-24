@@ -57,23 +57,21 @@ union PRGBA {
     PRGBA operator*(float coef) const;
 };
 
-enum PluginStatus {
-    PLUGIN_OK,
-    PLIGIN_ERR
+enum PPluginStatus {
+    PPS_OK,
+    PPS_ERR
 };
 
-enum PluginType {
+enum PFeatureLevel {
+    PFL_SHADER_SUPPORT = 1
+};
+
+enum PPluginType {
     PPT_EFFECT,
     PPT_TOOL,
 };
 
-enum PMouseButton {
-    PMB_LEFT,
-    PMB_RIGHT,
-    PMB_MIDDLE,
-};
-
-enum PreviewLayerPolicy {
+enum PPreviewLayerPolicy {
     PPLP_BLEND,
     PPLP_COPY,
 };
@@ -94,38 +92,38 @@ struct PRenderMode {
 };
 
 
-struct PluginInterface;
+struct PPluginInterface;
 
-struct PluginInfo {
+struct PPluginInfo {
     uint32_t std_version;
     void *reserved;
 
-    PluginInterface *interface;
+    PPluginInterface *interface;
 
     const char *name;
     const char *version;
     const char *author;
     const char *description;
 
-    PluginType type;
+    PPluginType type;
 };
 
 
-struct PluginInterface {
+struct PPluginInterface {
     uint32_t std_version;
     void *reserved;
 
     void *(*get_extension_func)(const char *name); // runs given func with given args, interprenting them freely
 
     struct {
-        const PluginInfo *(*get_info)();
-        PluginStatus (*init)(const AppInterface*);
-        PluginStatus (*deinit)();
+        const PPluginInfo *(*get_info)();
+        PPluginStatus (*init)(const PAppInterface*);
+        PPluginStatus (*deinit)();
         void (*dump)();
 
         void (*on_tick)(double dt);
 
-        PreviewLayerPolicy (*get_flush_policy)();
+        PPreviewLayerPolicy (*get_flush_policy)();
     } general;
 
     union {
@@ -134,25 +132,27 @@ struct PluginInterface {
         } effect;
 
         struct {
-            void (*on_press)(PVec2f, PMouseButton);
-            void (*on_release)(PVec2f, PMouseButton);
-            void (*on_move)(PVec2f, PVec2f, PMouseButton);
+            void (*on_press)(PVec2f mouse_pos);
+            void (*on_release)(PVec2f mouse_pos);
+            void (*on_move)(PVec2f mouse_old_pos, PVec2f mouse_new_pos);
         } tool;
     }
 };
 
 
-struct AppInterface {
+struct PAppInterface {
     uint32_t std_version;
     void *reserved;
 
     void *(*get_extension_func)(const char *name); // runs given func with given args, interprenting them freely
 
     struct {
-        void (*log)(const char *, ...);
+        PFeatureLevel feature_level;
+
+        void (*log)(const char *fmt, ...);
         double (*get_absolute_time)();
 
-        void (*release_pixels)(PRGBA *);
+        void (*release_pixels)(PRGBA *pixels);
 
         PRGBA (*get_color)();
         float (*get_size)();
@@ -164,12 +164,12 @@ struct AppInterface {
 	} target;
 
     struct {
-        void (*circle)(PVec2f, float, PRGBA, const *PRenderMode);
-        void (*line)(PVec2f, PVec2f, PRGBA, const *PRenderMode);
-        void (*triangle)(PVec2f, PVec2f, PVec2f, PRGBA, const *PRenderMode);
-        void (*rectangle)(PVec2f, PVec2f, PRGBA, const *PRenderMode);
+        void (*circle)(PVec2f position, float radius, PRGBA color, const *PRenderMode render_mode);
+        void (*line)(PVec2f start, PVec2f end, PRGBA color, const *PRenderMode render_mode);
+        void (*triangle)(PVec2f p1, PVec2f p2, PVec2f p3, PRGBA color, const *PRenderMode render_mode);
+        void (*rectangle)(PVec2f p1, PVec2f p2, PRGBA color, const *PRenderMode render_mode);
 
-        void (*pixels)(PVec2f position, const PRGBA *data, size_t width, size_t height, const *PRenderMode);
+        void (*pixels)(PVec2f position, const PRGBA *data, size_t width, size_t height, const *PRenderMode render_mode);
     } render;
 
     // set everything to nullptr here if you don't support shaders
@@ -190,4 +190,4 @@ struct AppInterface {
 
 // this function is defined only in plugin!
 
-struct PluginInterface *get_plugin_interface();
+struct PPluginInterface *get_plugin_interface();
