@@ -44,9 +44,9 @@ union PRGBA {
     }
 
     PRGBA();
-    PRGBA(const int x);
-    PRGBA(const uint32_t x);
-    PRGBA(const unsigned char r_, const unsigned char g_, const unsigned char b_, const unsigned char a_ = 255);
+    PRGBA(int32_t x);
+    PRGBA(uint32_t x);
+    PRGBA(unsigned char r_, unsigned char g_, unsigned char b_, unsigned char a_ = 255);
 
     // invert
     inline PRGBA operator-() const {
