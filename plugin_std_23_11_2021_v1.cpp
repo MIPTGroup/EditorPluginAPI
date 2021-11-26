@@ -1,5 +1,22 @@
 #include <cstdint>
 #include <cmath>
+
+
+// this function is only defined in plugin. call it to get PPluginInterface to interact with plugin
+// struct PPluginInterface *get_plugin_interface();
+
+#if __cplusplus >= 201703L
+
+constexpr char GET_PLUGIN_INTERFACE_FUNC[] = "get_plugin_interface";
+constexpr uint32_t PSTD_VERSION = 1;
+
+#else
+
+#define GET_PLUGIN_INTERFACE_FUNC "get_plugin_interface"
+#define PSTD_VERSION 1
+
+#endif
+
   
 struct PVec2f {
     union {
@@ -199,18 +216,3 @@ struct PAppInterface {
         void (*set_uniform_tex)(const char *name, void *texture);
     } shader;
 };
-
-// this function is only defined in plugin!
-// struct PPluginInterface *get_plugin_interface();
-
-#if __cplusplus >= 201703L
-
-constexpr char GET_PLUGIN_INTERFACE_FUNC[] = "get_plugin_interface";
-constexpr uint32_t PSTD_VERSION = 1;
-
-#else
-
-#define GET_PLUGIN_INTERFACE_FUNC "get_plugin_interface"
-#define PSTD_VERSION 1
-
-#endif
