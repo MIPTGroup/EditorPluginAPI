@@ -1,3 +1,6 @@
+#include <cstdint>
+#include <cmath>
+  
 struct PVec2f {
     union {
         struct {
@@ -145,7 +148,7 @@ struct PPluginInterface {
             void (*on_release)(PVec2f mouse_pos);
             void (*on_move)(PVec2f mouse_old_pos, PVec2f mouse_new_pos);
         } tool;
-    }
+    };
 };
 
 
@@ -173,17 +176,17 @@ struct PAppInterface {
 	} target;
 
     struct {
-        void (*circle)(PVec2f position, float radius, PRGBA color, const *PRenderMode render_mode);
-        void (*line)(PVec2f start, PVec2f end, PRGBA color, const *PRenderMode render_mode);
-        void (*triangle)(PVec2f p1, PVec2f p2, PVec2f p3, PRGBA color, const *PRenderMode render_mode);
-        void (*rectangle)(PVec2f p1, PVec2f p2, PRGBA color, const *PRenderMode render_mode);
+        void (*circle)(PVec2f position, float radius, PRGBA color, const PRenderMode *render_mode);
+        void (*line)(PVec2f start, PVec2f end, PRGBA color, const PRenderMode *render_mode);
+        void (*triangle)(PVec2f p1, PVec2f p2, PVec2f p3, PRGBA color, const PRenderMode *render_mode);
+        void (*rectangle)(PVec2f p1, PVec2f p2, PRGBA color, const PRenderMode *render_mode);
 
-        void (*pixels)(PVec2f position, const PRGBA *data, size_t width, size_t height, const *PRenderMode render_mode);
+        void (*pixels)(PVec2f position, const PRGBA *data, size_t width, size_t height, const PRenderMode *render_mode);
     } render;
 
     // set everything to nullptr here if you don't support shaders
     struct {
-        void (*apply)(void *shader, const *PRenderMode);
+        void (*apply)(void *shader, const PRenderMode*render_mode);
         void *(*compile)(const char *code);
         void (*release)(void *);
 
@@ -197,6 +200,7 @@ struct PAppInterface {
     } shader;
 };
 
-// this function is defined only in plugin!
+// this function is only defined in plugin!
+// struct PPluginInterface *get_plugin_interface();
 
-struct PPluginInterface *get_plugin_interface();
+const char *GET_PLUGIN_INTERFACE_FUNC_NAME = "get_plugin_interface";
