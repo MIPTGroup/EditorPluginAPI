@@ -3,6 +3,7 @@
 
 
 // this function is only defined in plugin. call it to get PPluginInterface to interact with plugin
+// make sure you wrap it into extern C section to avoid mangling
 // struct PPluginInterface *get_plugin_interface();
 
 #if __cplusplus >= 201703L
