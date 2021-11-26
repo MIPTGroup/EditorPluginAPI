@@ -103,8 +103,10 @@ struct PPluginInterface {
     uint32_t std_version;
     void *reserved;
 
-    bool  (*enable_extension)(const char *name);   // enables specified extension
-    void *(*get_extension_func)(const char *name); // returns given function, if it is implemented in some enabled extension
+    struct {
+        bool  (*enable_extension)(const char *name);   // enables specified extension
+        void *(*get_extension_func)(const char *name); // returns given function, if it is implemented in some enabled extension
+    } extensions;
 
     struct {
         const PPluginInfo *(*get_info)();
@@ -135,8 +137,10 @@ struct PAppInterface {
     uint32_t std_version;
     void *reserved;
 
-    bool  (*enable_extension)(const char *name);   // enables specified extension
-    void *(*get_extension_func)(const char *name); // returns given function, if it is implemented in some enabled extension
+    struct {
+        bool  (*enable_extension)(const char *name);   // enables specified extension
+        void *(*get_extension_func)(const char *name); // returns given function, if it is implemented in some enabled extension
+    } extensions;
 
     struct {
         PFeatureLevel feature_level;
