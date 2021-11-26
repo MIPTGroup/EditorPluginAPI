@@ -104,8 +104,8 @@ struct PPluginInterface {
     void *reserved;
 
     struct {
-        bool  (*enable_extension)(const char *name);   // enables specified extension
-        void *(*get_extension_func)(const char *name); // returns given function, if it is implemented in some enabled extension
+        bool  (*enable)(const char *name);   // enables specified extension
+        void *(*get_func)(const char *name); // returns given function, if it is implemented in some enabled extension
     } extensions;
 
     struct {
@@ -138,8 +138,8 @@ struct PAppInterface {
     void *reserved;
 
     struct {
-        bool  (*enable_extension)(const char *name);   // enables specified extension
-        void *(*get_extension_func)(const char *name); // returns given function, if it is implemented in some enabled extension
+        bool  (*enable)(const char *name);   // enables specified extension
+        void *(*get_func)(const char *name); // returns given function, if it is implemented in some enabled extension
     } extensions;
 
     struct {
