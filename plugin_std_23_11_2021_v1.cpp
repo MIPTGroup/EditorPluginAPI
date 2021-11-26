@@ -167,13 +167,14 @@ struct PAppInterface {
     // set everything to nullptr here if you don't support shaders
     struct {
         void (*apply)(void *shader, const PRenderMode*render_mode);
-        void *(*compile)(const char *code);
-        void (*release)(void *);
 
-        void (*set_uniform_int)(const char *name, int  val);
+        void *(*compile)(const char *code);
+        void  (*release)(void *);
+
+        void (*set_uniform_int)    (const char *name, int  val);
         void (*set_uniform_int_arr)(const char *name, int *val, size_t cnt);
 
-        void (*set_uniform_float)(const char *name, float  val);
+        void (*set_uniform_float)    (const char *name, float  val);
         void (*set_uniform_float_arr)(const char *name, float *val, size_t cnt);
 
         void (*set_uniform_tex)(const char *name, void *texture);
