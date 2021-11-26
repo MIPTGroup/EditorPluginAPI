@@ -7,91 +7,53 @@
 
 #if __cplusplus >= 201703L
 
-constexpr char GET_PLUGIN_INTERFACE_FUNC[] = "get_plugin_interface";
+constexpr char PGET_INTERFACE_FUNC[] = "get_plugin_interface";
 constexpr uint32_t PSTD_VERSION = 1;
 
 #else
 
-#define GET_PLUGIN_INTERFACE_FUNC "get_plugin_interface"
+#define PGET_INTERFACE_FUNC "get_plugin_interface"
 #define PSTD_VERSION 1
 
 #endif
 
-  
-struct PVec2f {
-    union {
-        struct {
-            float x;
-            float y;
-        };
 
-        float data[2];
+union PVec2f {
+    struct {
+        float x;
+        float y;
     };
+    float data[2];
 
-    PVec2f(float x, float y) {
-        data[0] = x;
-        data[1] = y;
-    }
-
-    inline float len_squared() const {
-        return x * x + y * y;
-    }
-
-    inline float len() const {
-        return sqrt(len_squared());
-    }
-
-    inline void clamp(const PVec2f &vmin, const PVec2f &vmax) {
-        for (int coord = 0; coord < 2; ++coord) {
-            data[coord] = fmin(fmax(data[coord], vmin.data[coord]), vmax.data[coord]);
-        }
-    }
+    PVec2f()                 : x(0),   y(0)   {}
+    PVec2f(float val)        : x(val), y(val) {}
+    PVec2f(float x, float y) : x(x),   y(y)   {}
 };
 
 union PRGBA {
-    unsigned char rgba[4];
     struct {
         unsigned char r;
         unsigned char g;
         unsigned char b;
         unsigned char a;
     };
-    int32_t i;
+    unsigned char rgba[4];
     uint32_t ui32;
 
-    inline bool is_empty() {
-        return ui32 == 0;
-    }
+    PRGBA()           : ui32(0) {}
+    PRGBA(uint32_t x) : ui32(x) {}
 
-    PRGBA();
-    PRGBA(int32_t x);
-    PRGBA(uint32_t x);
-    PRGBA(unsigned char r_, unsigned char g_, unsigned char b_, unsigned char a_ = 255);
-
-    // invert
-    inline PRGBA operator-() const {
-        return PRGBA{255 - r, 255 - g, 255 - b, a};
-    }
-
-    // Are these supposed to clamp? Not sure, not gonna implement yet
-    PRGBA operator+(const PRGBA &other) const;
-    PRGBA operator-(const PRGBA &other) const;
-
-    PRGBA operator/(float coef) const;
-    PRGBA operator*(float coef) const;
-
-    inline friend PRGBA operator*(float coef, const PRGBA &color) {
-        return color * coef;
-    }
+    PRGBA(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255) : r(r), g(g), b(b), a(a) {}
 };
+
 
 enum PPluginStatus {
     PPS_OK,
-    PPS_ERR
+    PPS_ERR,
 };
 
 enum PFeatureLevel {
-    PFL_SHADER_SUPPORT = 1
+    PFL_SHADER_SUPPORT = 1,
 };
 
 enum PPluginType {
