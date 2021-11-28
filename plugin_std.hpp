@@ -57,7 +57,8 @@ enum PPluginStatus {
 };
 
 enum PFeatureLevel {
-    PFL_SHADER_SUPPORT = 1,
+    PFL_SHADER_SUPPORT   = 1 << 0,
+    PFL_SETTINGS_SUPPORT = 1 << 1,
 };
 
 enum PPluginType {
