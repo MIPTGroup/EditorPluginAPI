@@ -94,6 +94,7 @@ enum PDrawPolicy {
 struct PRenderMode {
     PBlendMode blend;
     PDrawPolicy draw_policy;
+    void *shader;
 };
 
 
