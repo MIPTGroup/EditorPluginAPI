@@ -176,7 +176,7 @@ struct PAppInterface {
     } extensions;
 
     struct {
-        PFeatureLevel feature_level;
+        int feature_level;
 
         void (*log)(const char *fmt, ...);
         double (*get_absolute_time)();
