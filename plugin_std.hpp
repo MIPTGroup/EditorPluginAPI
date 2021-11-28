@@ -14,11 +14,36 @@
 constexpr char PGET_INTERFACE_FUNC[] = "get_plugin_interface";
 constexpr uint32_t PSTD_VERSION = 1;
 
+constexpr char PST_TEXT_LINE[]    = "pst_text_line";
+constexpr char PST_SLIDER_1D[]    = "pst_slider_1d";
+constexpr char PST_SLIDER_2D[]    = "pst_slider_2d";
+constexpr char PST_COLOR_PICKER[] = "pst_color_picker";
+
 #else
 
 #define PGET_INTERFACE_FUNC "get_plugin_interface"
 #define PSTD_VERSION 1
 
+#define PST_TEXT_LINE    "pst_text_line"
+#define PST_SLIDER_1D    "pst_slider_1d"
+#define PST_SLIDER_2D    "pst_slider_2d"
+#define PST_COLOR_PICKER "pst_color_picker"
+
+struct PTextFieldSetting {
+    const char *text;
+};
+
+struct PSlider1dSetting {
+    const float frac;
+};
+
+struct PSlider2dSetting {
+    const PVec2f frac;
+};
+
+struct PColorPickerSetting {
+    const PRGBA color;
+};
 #endif
 
 
@@ -103,7 +128,7 @@ struct PPluginInfo {
     PPluginType type;
 };
 
-
+struct PAppInterface;
 struct PPluginInterface {
     uint32_t std_version;
     void *reserved;
