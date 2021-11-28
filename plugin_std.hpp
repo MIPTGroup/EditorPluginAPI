@@ -119,6 +119,7 @@ struct PPluginInterface {
         void (*dump)();
 
         void (*on_tick)(double dt);
+        void (*on_settings_update)();
 
         PPreviewLayerPolicy (*get_flush_policy)();
     } general;
@@ -136,6 +137,24 @@ struct PPluginInterface {
     };
 };
 
+
+typedef const char *PSettingType;
+
+struct PTextFieldSetting {
+    const char *text;
+};
+
+struct PSlider1dSetting {
+    const float frac;
+};
+
+struct PSlider2dSetting {
+    const PVec2f frac;
+};
+
+struct PColorPickerSetting {
+    const PRGBA color;
+};
 
 struct PAppInterface {
     uint32_t std_version;
@@ -171,6 +190,14 @@ struct PAppInterface {
 
         void (*pixels)(PVec2f position, const PRGBA *data, size_t width, size_t height, const PRenderMode *render_mode);
     } render;
+
+    struct {
+        void  (*create_surface) (size_t width, size_t height);
+        void  (*destroy_surface)();
+
+        void *(*add)(PSettingType type, const char *name);
+        void  (*get)(void *handle, void *answer);
+    } settings;
 
     // set everything to nullptr here if you don't support shaders
     struct {
