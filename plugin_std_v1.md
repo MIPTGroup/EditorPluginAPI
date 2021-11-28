@@ -148,7 +148,7 @@
 
 ### PDrawPolicy
 - PPDP_PREVIEW - функции render применяются к preview-слою
-- PPDP_ACTIVE - функции render применяются к preview-слою
+- PPDP_ACTIVE - функции render применяются к основному слою
 
 # Терминология
 
