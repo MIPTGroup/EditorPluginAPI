@@ -103,7 +103,7 @@ struct PPluginInfo {
     uint32_t std_version;
     void *reserved;
 
-    PPluginInterface *interface;
+    const PPluginInterface *interface;
 
     const char *name;
     const char *version;
