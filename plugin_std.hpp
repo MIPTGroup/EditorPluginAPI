@@ -135,17 +135,15 @@ struct PPluginInterface {
         PPreviewLayerPolicy (*get_flush_policy)();
     } general;
 
-    union {
-        struct {
-            void (*apply)();
-        } effect;
+    struct {
+        void (*apply)();
+    } effect;
 
-        struct {
-            void (*on_press)(PVec2f mouse_pos);
-            void (*on_release)(PVec2f mouse_pos);
-            void (*on_move)(PVec2f mouse_old_pos, PVec2f mouse_new_pos);
-        } tool;
-    };
+    struct {
+        void (*on_press)(PVec2f mouse_pos);
+        void (*on_release)(PVec2f mouse_pos);
+        void (*on_move)(PVec2f mouse_old_pos, PVec2f mouse_new_pos);
+    } tool;
 };
 
 
