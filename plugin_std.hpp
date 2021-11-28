@@ -29,21 +29,6 @@ constexpr char PST_COLOR_PICKER[] = "pst_color_picker";
 #define PST_SLIDER_2D    "pst_slider_2d"
 #define PST_COLOR_PICKER "pst_color_picker"
 
-struct PTextFieldSetting {
-    const char *text;
-};
-
-struct PSlider1dSetting {
-    const float frac;
-};
-
-struct PSlider2dSetting {
-    const PVec2f frac;
-};
-
-struct PColorPickerSetting {
-    const PRGBA color;
-};
 #endif
 
 
