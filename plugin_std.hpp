@@ -1,10 +1,13 @@
+#ifndef PLUGIN_STD_HPP
+#define PLUGIN_STD_HPP
+
 #include <cstdint>
 #include <cmath>
 
 
 // this function is only defined in plugin. call it to get PPluginInterface to interact with plugin
 // make sure you wrap it into extern C section to avoid mangling
-// struct PPluginInterface *get_plugin_interface();
+// const PPluginInterface *get_plugin_interface();
 
 #if __cplusplus >= 201703L
 
@@ -183,3 +186,5 @@ struct PAppInterface {
         void (*set_uniform_float_arr)(const char *name, float *val, size_t cnt);
     } shader;
 };
+
+#endif
