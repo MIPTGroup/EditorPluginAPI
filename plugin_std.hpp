@@ -171,15 +171,15 @@ struct PTextFieldSetting {
 };
 
 struct PSlider1dSetting {
-    const float frac;
+    float frac;
 };
 
 struct PSlider2dSetting {
-    const PVec2f frac;
+    PVec2f frac;
 };
 
 struct PColorPickerSetting {
-    const PRGBA color;
+    PRGBA color;
 };
 
 struct PAppInterface {
