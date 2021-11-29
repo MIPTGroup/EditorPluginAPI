@@ -9,16 +9,18 @@
 
 const uint32_t PSTDVERSION = 0;
 
-const char *PNAME    = "Sharpy";
-const char *PVERSION = "1.0";
+const char *PNAME    = "Neg.Brush";
+const char *PVERSION = "version";
 const char *PAUTHOR  = "KCTF";
-const char *PDESCR   = "Spawns random triangles in a circle, blends them on active layer";
+const char *PDESCR   = "NOT cute and harmful";
 
 // ============================================================================ Flush policy
 
 const PPreviewLayerPolicy FLUSH_POLICY = PPLP_BLEND;
 
 // ============================================================================ Resources
+
+void *r_shader = nullptr;
 
 // ============================================================================
 
@@ -105,6 +107,25 @@ static PPluginStatus init(const PAppInterface *app_interface) {
 
     APPI = app_interface;
 
+    if (APPI->general.feature_level & PFL_SHADER_SUPPORT) {
+
+        r_shader = APPI->shader.compile(
+           "uniform sampler2D texture;                                  \
+            uniform float r;                                            \
+            uniform float g;                                            \
+            uniform float b;                                            \
+            void main() {                                               \
+                vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);     \
+                vec4 color = vec4(1.0 - r, 1.0 - g, 1.0 - b, pixel.w);  \
+                gl_FragColor = color;                                   \
+            }                                                           \
+           ", PST_FRAGMENT);
+    }
+
+    if (!r_shader) {
+        APPI->general.log("It is sad that you don't support shaders...");
+    }
+
     APPI->general.log("[plugin](%s) inited", PINFO.name);
     return PPS_OK;
 }
@@ -152,19 +173,25 @@ static void *get_extension_func(const char * /*name*/) {
     return nullptr;
 }
 
+PRGBA negative(PRGBA col) {
+    return {(unsigned char) (255 - col.r), 
+            (unsigned char) (255 - col.g),
+            (unsigned char) (255 - col.b),
+            col.a};
+}
+
 static void draw(PVec2f pos) {
     float size = APPI->general.get_size();
+    PRGBA color = APPI->general.get_color();
 
-    float a1 = rand();
-    float a2 = rand();
-
-    PVec2f p0 = pos;
-
-    PVec2f p1 = {(float) (pos.x + cos(a1) * size), (float) (pos.y + sin(a2) * size)};
-    PVec2f p2 = {(float) (pos.x + cos(a2) * size), (float) (pos.y + sin(a1) * size)};
-
-    PRenderMode render_mode = { PPBM_ALPHA_BLEND, PPDP_ACTIVE, nullptr };
-    APPI->render.triangle(p0, p1, p2,
-                          APPI->general.get_color(),
-                          &render_mode);
+    if (!r_shader) {
+        PRenderMode render_mode = { PPBM_ALPHA_BLEND, PPDP_PREVIEW, nullptr };
+        APPI->render.circle(pos, size, negative(color), &render_mode);
+    } else {
+        PRenderMode render_mode = { PPBM_ALPHA_BLEND, PPDP_PREVIEW, r_shader };
+        APPI->shader.set_uniform_float(r_shader, "r", (float) color.r / 255);
+        APPI->shader.set_uniform_float(r_shader, "g", (float) color.g / 255);
+        APPI->shader.set_uniform_float(r_shader, "b", (float) color.b / 255);
+        APPI->render.circle(pos, size, color, &render_mode);
+    }
 }

@@ -1,5 +1,5 @@
 #include "redactor/plugin_std.h"
-#include "utils.h"
+// #include "kctf_utils.h"
 
 #include <cstdlib>
 #include <ctime>
@@ -9,10 +9,10 @@
 
 const uint32_t PSTDVERSION = 0;
 
-const char *PNAME    = "Sharpy";
-const char *PVERSION = "1.0";
-const char *PAUTHOR  = "KCTF";
-const char *PDESCR   = "Spawns random triangles in a circle, blends them on active layer";
+const char *PNAME    = "A name";
+const char *PVERSION = "0.1";
+const char *PAUTHOR  = "An author";
+const char *PDESCR   = "A discription";
 
 // ============================================================================ Flush policy
 
@@ -153,18 +153,9 @@ static void *get_extension_func(const char * /*name*/) {
 }
 
 static void draw(PVec2f pos) {
-    float size = APPI->general.get_size();
+    float size  = APPI->general.get_size() ;
+    PRGBA color = APPI->general.get_color();
 
-    float a1 = rand();
-    float a2 = rand();
-
-    PVec2f p0 = pos;
-
-    PVec2f p1 = {(float) (pos.x + cos(a1) * size), (float) (pos.y + sin(a2) * size)};
-    PVec2f p2 = {(float) (pos.x + cos(a2) * size), (float) (pos.y + sin(a1) * size)};
-
-    PRenderMode render_mode = { PPBM_ALPHA_BLEND, PPDP_ACTIVE, nullptr };
-    APPI->render.triangle(p0, p1, p2,
-                          APPI->general.get_color(),
-                          &render_mode);
+    PRenderMode render_mode = { PPBM_COPY, PPDP_PREVIEW, nullptr }; 
+    APPI->render.circle(pos, size, color, &render_mode);
 }
