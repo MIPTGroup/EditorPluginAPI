@@ -46,8 +46,8 @@ static void draw(PVec2f pos);
 
 const PPluginInterface PINTERFACE =
 {
-    0, // std_version
-    0, // reserved
+    PSTDVERSION, // std_version
+    nullptr,     // reserved
     
     {
         enable_extension,
