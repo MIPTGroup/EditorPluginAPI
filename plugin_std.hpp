@@ -166,6 +166,12 @@ struct PColorPickerSetting {
     PRGBA color;
 };
 
+enum PShaderType {
+    PST_VERTEX,
+    PST_FRAGMENT,
+    PST_COMPUTE,
+};
+
 struct PAppInterface {
     uint32_t std_version;
     void *reserved;
@@ -213,7 +219,7 @@ struct PAppInterface {
     struct {
         void (*apply)(void *shader, const PRenderMode *render_mode);
 
-        void *(*compile)(const char *code);
+        void *(*compile)(const char *code, PShaderType type);
         void  (*release)(void *);
 
         void (*set_uniform_int)    (const char *name, int  val);
