@@ -222,11 +222,11 @@ struct PAppInterface {
         void *(*compile)(const char *code, PShaderType type);
         void  (*release)(void *);
 
-        void (*set_uniform_int)    (const char *name, int  val);
-        void (*set_uniform_int_arr)(const char *name, int *val, size_t cnt);
+        void (*set_uniform_int)      (void *shader, const char *name, int  val);
+        void (*set_uniform_int_arr)  (void *shader, const char *name, int *val, size_t cnt);
 
-        void (*set_uniform_float)    (const char *name, float  val);
-        void (*set_uniform_float_arr)(const char *name, float *val, size_t cnt);
+        void (*set_uniform_float)    (void *shader, const char *name, float  val);
+        void (*set_uniform_float_arr)(void *shader, const char *name, float *val, size_t cnt);
     } shader;
 };
 
