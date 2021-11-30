@@ -208,11 +208,11 @@ struct PAppInterface {
     } render;
 
     struct {
-        void  (*create_surface) (PPluginInterface *self, size_t width, size_t height);
-        void  (*destroy_surface)(PPluginInterface *self);
+        void  (*create_surface) (const PPluginInterface *self, size_t width, size_t height);
+        void  (*destroy_surface)(const PPluginInterface *self);
 
-        void *(*add)(PPluginInterface *self, PSettingType type, const char *name);
-        void  (*get)(PPluginInterface *self, void *handle, void *answer);
+        void *(*add)(const PPluginInterface *self, PSettingType type, const char *name);
+        void  (*get)(const PPluginInterface *self, void *handle, void *answer);
     } settings;
 
     // set everything to nullptr here if you don't support shaders
