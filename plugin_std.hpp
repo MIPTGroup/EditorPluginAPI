@@ -217,7 +217,7 @@ struct PAppInterface {
 
     // set everything to nullptr here if you don't support shaders
     struct {
-        void (*apply)(void *shader, const PRenderMode *render_mode);
+        void (*apply)(const PRenderMode *render_mode);
 
         void *(*compile)(const char *code, PShaderType type);
         void  (*release)(void *);
