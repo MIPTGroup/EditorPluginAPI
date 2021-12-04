@@ -194,9 +194,9 @@ struct PAppInterface {
     } general;
 
     struct {
-	    PRGBA *(*get_pixels)();
-	    void (*get_size)(size_t *width, size_t *height);
-	} target;
+        PRGBA *(*get_pixels)();
+        void (*get_size)(size_t *width, size_t *height);
+    } target;
 
     struct {
         void (*circle)(PVec2f position, float radius, PRGBA color, const PRenderMode *render_mode);
