@@ -12,7 +12,7 @@
 #if __cplusplus >= 201703L
 
 constexpr char PGET_INTERFACE_FUNC[] = "get_plugin_interface";
-constexpr uint32_t PSTD_VERSION = 1;
+constexpr uint32_t PSTD_VERSION = 0;
 
 constexpr char PST_TEXT_LINE[]    = "pst_text_line";
 constexpr char PST_SLIDER_1D[]    = "pst_slider_1d";
@@ -24,7 +24,7 @@ constexpr char PEXT_STD[] = "std";
 #else
 
 #define PGET_INTERFACE_FUNC "get_plugin_interface"
-#define PSTD_VERSION 1
+#define PSTD_VERSION 0
 
 #define PST_TEXT_LINE    "pst_text_line"
 #define PST_SLIDER_1D    "pst_slider_1d"
