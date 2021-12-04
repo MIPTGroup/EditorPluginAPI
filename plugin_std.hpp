@@ -12,22 +12,26 @@
 #if __cplusplus >= 201703L
 
 constexpr char PGET_INTERFACE_FUNC[] = "get_plugin_interface";
-constexpr uint32_t PSTD_VERSION = 1;
+constexpr uint32_t PSTD_VERSION = 0;
 
 constexpr char PST_TEXT_LINE[]    = "pst_text_line";
 constexpr char PST_SLIDER_1D[]    = "pst_slider_1d";
 constexpr char PST_SLIDER_2D[]    = "pst_slider_2d";
 constexpr char PST_COLOR_PICKER[] = "pst_color_picker";
 
+constexpr char PEXT_STD[] = "std";
+
 #else
 
 #define PGET_INTERFACE_FUNC "get_plugin_interface"
-#define PSTD_VERSION 1
+#define PSTD_VERSION 0
 
 #define PST_TEXT_LINE    "pst_text_line"
 #define PST_SLIDER_1D    "pst_slider_1d"
 #define PST_SLIDER_2D    "pst_slider_2d"
 #define PST_COLOR_PICKER "pst_color_picker"
+
+#define PEXT_STD  "std"
 
 #endif
 
@@ -120,8 +124,11 @@ struct PPluginInterface {
     void *reserved;
 
     struct {
-        bool  (*enable)(const char *name);   // enables specified extension
-        void *(*get_func)(const char *name); // returns given function, if it is implemented in some enabled extension
+        // enables specified extension
+        bool  (*enable)(const char *name);
+
+        // returns given function, if it is implemented in the specified (enabled) extension
+        void *(*get_func)(const char *extension, const char *func);
     } extensions;
 
     struct {
@@ -177,8 +184,11 @@ struct PAppInterface {
     void *reserved;
 
     struct {
-        bool  (*enable)(const char *name);   // enables specified extension
-        void *(*get_func)(const char *name); // returns given function, if it is implemented in some enabled extension
+        // enables specified extension
+        bool  (*enable)(const char *name);
+
+        // returns given function, if it is implemented in the specified (enabled) extension
+        void *(*get_func)(const char *extension, const char *func);
     } extensions;
 
     struct {
@@ -194,9 +204,9 @@ struct PAppInterface {
     } general;
 
     struct {
-	    PRGBA *(*get_pixels)();
-	    void (*get_size)(size_t *width, size_t *height);
-	} target;
+        PRGBA *(*get_pixels)();
+        void (*get_size)(size_t *width, size_t *height);
+    } target;
 
     struct {
         void (*circle)(PVec2f position, float radius, PRGBA color, const PRenderMode *render_mode);
