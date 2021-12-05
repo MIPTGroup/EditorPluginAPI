@@ -221,7 +221,7 @@ struct PAppInterface {
         void  (*create_surface) (const PPluginInterface *self, size_t width, size_t height);
         void  (*destroy_surface)(const PPluginInterface *self);
 
-        void *(*add)(const PPluginInterface *self, PSettingType type, const char *name);
+        void *(*add)(const PPluginInterface *self, PSettingType type, const char *name, void* init_value);
         void  (*get)(const PPluginInterface *self, void *handle, void *answer);
     } settings;
 
