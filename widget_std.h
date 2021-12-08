@@ -1,6 +1,8 @@
 #ifndef WIDGET_STD_H
 #define WIDGET_STD_H
 
+#include <functional>
+
 #include "types_std.h"
 #include "events_std.h"
 
@@ -15,7 +17,7 @@ struct WBody {
 
 class Widget {
 public:
-    Widget(const WBody &body, Widget *parent = nullptr);
+    Widget(const WBody &body, Widget *parent = nullptr) : body(body), parent(parent), texture(nullptr) {}
 
     void set_position(const Vec2f &position_) { body.position = position_; }
     void set_size(const Vec2f &size_) { body.size = size_; }
@@ -46,8 +48,9 @@ public:
     virtual void on_key_up          (Widget *self, const Event::KeyUp           &event) = 0;
     virtual void on_text_enter      (Widget *self, const Event::TextEnter       &event) = 0;
     virtual void on_fraction_change (Widget *self, const Event::FractionChanged &event) = 0;
-    virtual void on_click           (Widget *self, const Event::Click           &event) = 0;
     virtual void on_scroll          (Widget *self, const Event::Scroll          &event) = 0;
+
+    virtual void add_label(const char *text, size_t font_size, const Vec2f *pos = nullptr);
 
     // virtual void on_hover_begin     (Widget *self, const Event:: &event);
     // virtual void on_hover_end       (Widget *self, const Event:: &event);
@@ -56,8 +59,6 @@ protected:
     Widget *parent;
     WBody body;
     RenderTarget *texture;
-
-    bool is_active;
 };
 
 }
