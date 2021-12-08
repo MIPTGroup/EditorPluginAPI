@@ -62,35 +62,27 @@ struct PluginInterface {
     uint32_t std_version;
     void *reserved;
 
-    struct {
-        // enables specified extension
-        bool  (*enable)(const char *name);
+    // enables specified extension
+    virtual bool enable(const char *name) = 0;
 
-        // returns given function, if it is implemented in the specified (enabled) extension
-        void *(*get_func)(const char *extension, const char *func);
-    } extensions;
+    // returns given function, if it is implemented in the specified (enabled) extension
+    virtual void *get_func(const char *extension, const char *func) = 0;
 
-    struct {
-        const PluginInfo *(*get_info)();
-        Status (*init)(const AppInterface*);
-        Status (*deinit)();
-        void (*dump)();
+    virtual const PluginInfo *get_info() = 0;
+    virtual Status init(const AppInterface*) = 0;
+    virtual Status deinit() = 0;
+    virtual void dump() = 0;
 
-        void (*on_tick)(double dt);
-        void (*on_settings_update)();
+    virtual void on_tick(double dt) = 0;
+    virtual void on_settings_update() = 0;
 
-        PreviewLayerPolicy (*get_flush_policy)();
-    } general;
+    virtual PreviewLayerPolicy get_flush_policy() = 0;
 
-    struct {
-        void (*apply)();
-    } effect;
+    virtual void apply() = 0;
 
-    struct {
-        void (*on_press)(Vec2f mouse_pos);
-        void (*on_release)(Vec2f mouse_pos);
-        void (*on_move)(Vec2f mouse_old_pos, Vec2f mouse_new_pos);
-    } tool;
+    virtual void on_press(Vec2f mouse_pos) = 0;
+    virtual void on_release(Vec2f mouse_pos) = 0;
+    virtual void on_move(Vec2f mouse_old_pos, Vec2f mouse_new_pos) = 0;
 };
 
 struct PAppInterface {
