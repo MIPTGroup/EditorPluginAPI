@@ -87,6 +87,9 @@ struct RenderMode {
 struct RenderTarget {
     size_t width;
     size_t height;
+
+    virtual RGBA get_pixel(size_t x, size_t y) = 0;
+    virtual void set_pixel(size_t x, size_t y, RGBA color) = 0;
 };
 
 }

@@ -2,6 +2,8 @@
 #define PLUGIN_STD_HPP
 
 
+#include <string>
+
 #include "types_std.h"
 
 
@@ -95,53 +97,44 @@ struct PAppInterface {
     uint32_t std_version;
     void *reserved;
 
-    struct {
-        // enables specified extension
-        bool  (*enable)(const char *name);
+    // enables specified extension
+    virtual bool enable(std::string_view name) = 0;
 
-        // returns given function, if it is implemented in the specified (enabled) extension
-        void *(*get_func)(const char *extension, const char *func);
-    } extensions;
+    // returns given function, if it is implemented in the specified (enabled) extension
+    virtual void *get_func(std::string_view extension, std::string_view func) = 0;
+    
+    int feature_level;
 
-    struct {
-        int feature_level;
+    virtual void log(const char *fmt, ...) = 0;
+    virtual double get_absolute_time() = 0;
 
-        void (*log)(const char *fmt, ...);
-        double (*get_absolute_time)();
+    virtual void release_pixels(RGBA *pixels) = 0;
 
-        void (*release_pixels)(RGBA *pixels);
+    virtual RGBA get_color() = 0;
+    virtual float get_size() = 0;
 
-        RGBA (*get_color)();
-        float (*get_size)();
-    } general;
+    virtual RenderTarget *get_target();
+    virtual RGBA *get_target_pixels();
+    virtual void get_size(size_t *width, size_t *height);
 
-    struct {
-        RGBA *(*get_pixels)();
-        void (*get_size)(size_t *width, size_t *height);
-    } target;
+    virtual void render_circle(Vec2f position, float radius, RGBA color, const RenderMode *render_mode) = 0;
+    virtual void render_line(Vec2f start, Vec2f end, RGBA color, const RenderMode *render_mode) = 0;
+    virtual void render_triangle(Vec2f p1, Vec2f p2, Vec2f p3, RGBA color, const RenderMode *render_mode) = 0;
+    virtual void render_rectangle(Vec2f p1, Vec2f p2, RGBA color, const RenderMode *render_mode) = 0;
 
-    struct {
-        void (*circle)(Vec2f position, float radius, RGBA color, const RenderMode *render_mode);
-        void (*line)(Vec2f start, Vec2f end, RGBA color, const RenderMode *render_mode);
-        void (*triangle)(Vec2f p1, Vec2f p2, Vec2f p3, RGBA color, const RenderMode *render_mode);
-        void (*rectangle)(Vec2f p1, Vec2f p2, RGBA color, const RenderMode *render_mode);
-
-        void (*pixels)(Vec2f position, const RGBA *data, size_t width, size_t height, const RenderMode *render_mode);
-    } render;
+    virtual void render_pixels(Vec2f position, const RGBA *data, size_t width, size_t height, const RenderMode *render_mode) = 0;
 
     // set everything to nullptr here if you don't support shaders
-    struct {
-        void (*apply)(const RenderMode *render_mode);
+    virtual void shader_apply(const RenderMode *render_mode);
 
-        void *(*compile)(const char *code, ShaderType type);
-        void  (*release)(void *);
+    virtual void *shader_compile(const char *code, ShaderType type);
+    virtual void  shader_release(void *);
 
-        void (*set_uniform_int)      (void *shader, const char *name, int  val);
-        void (*set_uniform_int_arr)  (void *shader, const char *name, int *val, size_t cnt);
+    virtual void shader_set_uniform_int      (void *shader, const char *name, int  val);
+    virtual void shader_set_uniform_int_arr  (void *shader, const char *name, int *val, size_t cnt);
 
-        void (*set_uniform_float)    (void *shader, const char *name, float  val);
-        void (*set_uniform_float_arr)(void *shader, const char *name, float *val, size_t cnt);
-    } shader;
+    virtual void shader_set_uniform_float    (void *shader, const char *name, float  val);
+    virtual void shader_set_uniform_float_arr(void *shader, const char *name, float *val, size_t cnt);
 };
 
 }

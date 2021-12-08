@@ -47,7 +47,6 @@ public:
     virtual void on_key_down        (Widget *self, const Event::KeyDown         &event) = 0;
     virtual void on_key_up          (Widget *self, const Event::KeyUp           &event) = 0;
     virtual void on_text_enter      (Widget *self, const Event::TextEnter       &event) = 0;
-    virtual void on_fraction_change (Widget *self, const Event::FractionChanged &event) = 0;
     virtual void on_scroll          (Widget *self, const Event::Scroll          &event) = 0;
 
     virtual void add_label(const char *text, size_t font_size, const Vec2f *pos = nullptr);
