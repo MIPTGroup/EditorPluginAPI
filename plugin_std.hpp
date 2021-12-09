@@ -2,7 +2,7 @@
 #define PLUGIN_STD_HPP
 
 
-#include <string>
+#include <string_view>
 
 #include "lib_std/types_std.h"
 #include "lib_std/widgets/collection.h"
@@ -12,21 +12,10 @@
 // make sure you wrap it into extern C section to avoid mangling
 // const PluginInterface *get_plugin_interface();
 
-#if __cplusplus >= 201703L
-
 constexpr char PGET_INTERFACE_FUNC[] = "get_plugin_interface";
 constexpr uint32_t PSTD_VERSION = 0x00010000;
 
 constexpr char PEXT_STD[] = "std";
-
-#else
-
-#define PGET_INTERFACE_FUNC "get_plugin_interface"
-#define PSTD_VERSION 0x00010000
-
-#define PEXT_STD  "std"
-
-#endif
 
 
 namespace P {
@@ -34,6 +23,8 @@ namespace P {
 
 class RenderTarget {
 public:
+    virtual RenderTarget *get_copy() const = 0;
+
     virtual Vec2s get_size() const = 0;
 
     virtual RGBA get_pixel(size_t x, size_t y) const = 0;
@@ -156,8 +147,8 @@ struct AppInterface {
     virtual float get_size() const = 0;
 
 // target
-    virtual RenderTarget *get_target()  const = 0;
-    virtual RenderTarget *get_preview() const = 0;
+    virtual RenderTarget *get_target()  const = 0; // returns actual active  layer, drawing in it changes app's layer
+    virtual RenderTarget *get_preview() const = 0; // returns actual preview layer, drawing in it changes app's layer
     virtual void flush_preview()        const = 0;
 };
 

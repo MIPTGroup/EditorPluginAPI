@@ -32,11 +32,6 @@ enum BlendMode {
     PPBM_ALPHA_BLEND,
 };
 
-enum DrawPolicy {
-    PPDP_PREVIEW,
-    PPDP_ACTIVE,
-};
-
 enum ShaderType {
     PST_VERTEX,
     PST_FRAGMENT,
@@ -95,7 +90,6 @@ struct Shader {
 
 struct RenderMode {
     BlendMode blend;
-    DrawPolicy draw_policy;
     Shader *shader;
 };
 
