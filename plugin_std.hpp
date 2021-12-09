@@ -33,11 +33,12 @@ constexpr char PEXT_STD[] = "std";
 namespace P {
 
 
-struct RenderTarget {
-    size_t width;
-    size_t height;
+class RenderTarget {
+public:
+    virtual Vec2s get_size() const = 0;
+    virtual void set_size(Vec2s size) = 0;
 
-    virtual RGBA get_pixel(size_t x, size_t y) = 0;
+    virtual RGBA get_pixel(size_t x, size_t y) const = 0;
     virtual void set_pixel(size_t x, size_t y, RGBA color) = 0;
 
     virtual RGBA *get_pixels() = 0;
@@ -53,7 +54,7 @@ struct RenderTarget {
     virtual void render_texture(Vec2f position, const RenderTarget *texture, const RenderMode *render_mode) = 0;
     virtual void render_pixels(Vec2f position, const RGBA *data, size_t width, size_t height, const RenderMode *render_mode) = 0;
 
-    virtual void apply(const Shader *shader) = 0;
+    virtual void apply_shader(const Shader *shader) = 0;
 };
 
 
@@ -69,9 +70,9 @@ struct PluginInfo {
     const char *version;
     const char *author;
     const char *description;
-    RenderTarget *icon;
+    const RenderTarget *icon;
 
-    PluginType type;
+    const PluginType type;
 };
 
 struct AppInterface;
@@ -80,47 +81,50 @@ struct PluginInterface {
     void *reserved;
 
     // enables specified extension
-    virtual bool enable(const char *name) = 0;
+    virtual bool enable(const char *name) const = 0;
 
     // returns given function, if it is implemented in the specified (enabled) extension
-    virtual void *get_func(const char *extension, const char *func) = 0;
+    virtual void *get_func(const char *extension, const char *func) const = 0;
 
-    virtual const PluginInfo *get_info() = 0;
-    virtual Status init(const AppInterface*) = 0;
-    virtual Status deinit() = 0;
-    virtual void dump() = 0;
+    // returns given interface, if it is implemented in the specified (enabled) extension
+    virtual void *get_interface(const char *extension, const char *name) const = 0;
 
-    virtual void on_tick(double dt) = 0;
-    virtual void on_settings_update() = 0;
+    virtual const  PluginInfo *get_info()    const = 0;
+    virtual Status init(const AppInterface*) const = 0;
+    virtual Status deinit()                  const = 0;
+    virtual void   dump()                    const = 0;
 
-    virtual PreviewLayerPolicy get_flush_policy() = 0;
+    virtual void on_tick(double dt)   const = 0;
+    virtual void on_settings_update() const = 0;
 
-    virtual void apply() = 0;
+    virtual PreviewLayerPolicy get_flush_policy() const = 0;
 
-    virtual void on_press  (Vec2f position) = 0;
-    virtual void on_release(Vec2f position) = 0;
-    virtual void on_move   (Vec2f from, Vec2f to) = 0;
+    virtual void effect_apply() const = 0;
+
+    virtual void tool_on_press  (Vec2f position)       const = 0;
+    virtual void tool_on_release(Vec2f position)       const = 0;
+    virtual void tool_on_move   (Vec2f from, Vec2f to) const = 0;
 };
 
 struct WidgetFactory {
-    virtual Button      *button       (const WBody &body, Widget *parent = nullptr) = 0;
-    virtual Slider      *slider       (const WBody &body, Widget *parent = nullptr) = 0;
-    virtual TextField   *text_field   (const WBody &body, Widget *parent = nullptr) = 0;
-    virtual Window      *window       (const WBody &body, Widget *parent = nullptr) = 0;
-    virtual ColorPicker *color_picker (const WBody &body, Widget *parent = nullptr) = 0;
-    virtual Label       *label        (const WBody &body, Widget *parent = nullptr) = 0;
-    virtual Widget      *abstract     (const WBody &body, Widget *parent = nullptr) = 0;
+    virtual Button      *button       (const WBody &body, Widget *parent = nullptr) const = 0;
+    virtual Slider      *slider       (const WBody &body, Widget *parent = nullptr) const = 0;
+    virtual TextField   *text_field   (const WBody &body, Widget *parent = nullptr) const = 0;
+    virtual Window      *window       (const WBody &body, Widget *parent = nullptr) const = 0;
+    virtual ColorPicker *color_picker (const WBody &body, Widget *parent = nullptr) const = 0;
+    virtual Label       *label        (const WBody &body, Widget *parent = nullptr) const = 0;
+    virtual Widget      *abstract     (const WBody &body, Widget *parent = nullptr) const = 0;
 };
 
 struct ShaderFactory {
-    virtual Shader *compile(const char *code, ShaderType type) = 0;
-    virtual void    release(Shader *) = 0;
+    virtual Shader *compile(const char *code, ShaderType type) const = 0;
+    virtual void    release(Shader *) const = 0;
 };
 
 struct RenderTargetFactory {
     virtual RenderTarget *spawn(size_t width, size_t height, RGBA color = {0, 0, 0, 255}) const = 0; // color -> fill with it
     virtual RenderTarget *from_pixels(size_t width, size_t height, RGBA *data) const = 0;
-    virtual RenderTarget *from_file(const char *filename) const = 0;
+    virtual RenderTarget *from_file(const char *path) const = 0;
     virtual void release(RenderTarget *target) const = 0;
 };
 
@@ -142,18 +146,21 @@ struct AppInterface {
 
     // returns given function, if it is implemented in the specified (enabled) extension
     virtual void *get_func(std::string_view extension, std::string_view func) const = 0;
+    
+    // returns given interface, if it is implemented in the specified (enabled) extension
+    virtual void *get_interface(const char *extension, const char *name) const = 0;
 
 // general
     virtual void log(const char *fmt, ...) const = 0;
-    virtual double get_absolute_time() const     = 0;
+    virtual double get_absolute_time()     const = 0;
 
-    virtual RGBA get_color() = 0;
-    virtual float get_size() = 0;
+    virtual RGBA get_color() const = 0;
+    virtual float get_size() const = 0;
 
 // target
-    virtual RenderTarget *get_target() const  = 0;
+    virtual RenderTarget *get_target()  const = 0;
     virtual RenderTarget *get_preview() const = 0;
-    virtual void flush_preview() const = 0;
+    virtual void flush_preview()        const = 0;
 };
 
 }

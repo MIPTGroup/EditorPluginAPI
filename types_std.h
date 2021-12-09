@@ -50,17 +50,24 @@ enum MouseButton {
     middle
 };
 
-union Vec2f {
+template <typename T>
+union Vec2T {
     struct {
-        float x;
-        float y;
+        T x;
+        T y;
     };
-    float data[2];
+    T data[2];
 
-    Vec2f()                 : x(0),   y(0)   {}
-    Vec2f(float val)        : x(val), y(val) {}
-    Vec2f(float x, float y) : x(x),   y(y)   {}
+    Vec2f()         : x(0),   y(0)   {}
+    Vec2f(T val)    : x(val), y(val) {}
+    Vec2f(T x, T y) : x(x),   y(y)   {}
 };
+
+using Vec2f = Vec2T<float>;
+using Vec2d = Vec2T<double>;
+using Vec2i = Vec2T<int>;
+using Vec2s = Vec2T<size_t>;
+
 
 union RGBA {
     struct {
