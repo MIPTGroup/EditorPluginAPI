@@ -4,9 +4,8 @@
 
 #include <string>
 
-#include "types_std.h"
-#include "widget_std.h"
-#include "widgets/collection.h"
+#include "lib_std/types_std.h"
+#include "lib_std/widgets/collection.h"
 
 
 // this function is only defined in plugin. call it to get PluginInterface to interact with plugin
