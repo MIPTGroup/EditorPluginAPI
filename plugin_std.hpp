@@ -85,8 +85,6 @@ struct PluginInterface {
 
     virtual void on_tick(double dt)   const = 0;
 
-    virtual PreviewLayerPolicy get_flush_policy() const = 0;
-
     virtual void effect_apply() const = 0;
 
     virtual void tool_on_press  (Vec2f position)       const = 0;
@@ -105,8 +103,8 @@ struct WidgetFactory {
 };
 
 struct ShaderFactory {
-    virtual Shader *compile(const char *code, ShaderType type) const = 0;
-    virtual void    release(Shader *)                          const = 0;
+    virtual Shader *compile (const char *code, ShaderType type, bool is_code = true) const = 0;
+    virtual void    release (Shader *)                                               const = 0;
 };
 
 struct RenderTargetFactory {

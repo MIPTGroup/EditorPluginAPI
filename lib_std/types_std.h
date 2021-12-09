@@ -8,34 +8,29 @@
 namespace P {
 
 enum Status {
-    PPS_OK,
-    PPS_ERR,
+    OK,
+    ERR,
 };
 
 enum FeatureLevel {
-    PFL_SHADER_SUPPORT   = 1 << 0,
-    PFL_SETTINGS_SUPPORT = 1 << 1,
+    SHADER_SUPPORT   = 1 << 0,
+    SETTINGS_SUPPORT = 1 << 1,
 };
 
 enum PluginType {
-    PPT_EFFECT,
-    PPT_TOOL,
-};
-
-enum PreviewLayerPolicy {
-    PPLP_BLEND,
-    PPLP_COPY,
+    EFFECT,
+    TOOL,
 };
 
 enum BlendMode {
-    PPBM_COPY,
-    PPBM_ALPHA_BLEND,
+    COPY,
+    ALPHA_BLEND,
 };
 
 enum ShaderType {
-    PST_VERTEX,
-    PST_FRAGMENT,
-    PST_COMPUTE,
+    VERTEX,
+    FRAGMENT,
+    COMPUTE,
 };
 
 enum MouseButton {
@@ -81,11 +76,11 @@ union RGBA {
 };
 
 struct Shader {
-    virtual void shader_set_uniform_int      (void *shader, const char *name, int  val) = 0;
-    virtual void shader_set_uniform_int_arr  (void *shader, const char *name, int *val, size_t cnt) = 0;
+    virtual void set_uniform_int      (const char *name, int  val) = 0;
+    virtual void set_uniform_int_arr  (const char *name, int *val, size_t cnt) = 0;
 
-    virtual void shader_set_uniform_float    (void *shader, const char *name, float  val) = 0;
-    virtual void shader_set_uniform_float_arr(void *shader, const char *name, float *val, size_t cnt) = 0;
+    virtual void set_uniform_float    (const char *name, float  val) = 0;
+    virtual void set_uniform_float_arr(const char *name, float *val, size_t cnt) = 0;
 };
 
 struct RenderMode {
