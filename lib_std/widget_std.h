@@ -14,6 +14,7 @@ struct WBody {
     Vec2f size;
 };
 
+class RenderTarget;
 
 class Widget {
 public:
@@ -26,7 +27,7 @@ public:
     void set_body(const WBody &body_) { body = body_; }
 
     Widget *get_parent() const { return parent; }
-    void set_parent(Widget *parent_) { parent = parent; }
+    void set_parent(Widget *parent_) { parent = parent_; }
 
     RenderTarget *get_texture() { return texture; }
     void set_texture(RenderTarget *texture_) { texture = texture_; }
@@ -55,8 +56,8 @@ public:
     // virtual void on_hover_end       (Widget *self, const Event:: &event);
 
 protected:
-    Widget *parent;
     WBody body;
+    Widget *parent;
     RenderTarget *texture;
 };
 

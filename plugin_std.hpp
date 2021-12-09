@@ -84,7 +84,6 @@ struct PluginInterface {
     virtual void   dump()                    const = 0;
 
     virtual void on_tick(double dt)   const = 0;
-    virtual void on_settings_update() const = 0;
 
     virtual PreviewLayerPolicy get_flush_policy() const = 0;
 
@@ -107,14 +106,15 @@ struct WidgetFactory {
 
 struct ShaderFactory {
     virtual Shader *compile(const char *code, ShaderType type) const = 0;
-    virtual void    release(Shader *) const = 0;
+    virtual void    release(Shader *)                          const = 0;
 };
 
 struct RenderTargetFactory {
-    virtual RenderTarget *spawn(size_t width, size_t height, RGBA color = {0, 0, 0, 255}) const = 0; // color -> fill with it
-    virtual RenderTarget *from_pixels(size_t width, size_t height, RGBA *data) const = 0;
+    virtual RenderTarget *spawn(Vec2s size, RGBA color = {0, 0, 0, 255}) const = 0; // color -> fill with it
+    virtual RenderTarget *from_pixels(Vec2s size, const RGBA *data) const = 0;
     virtual RenderTarget *from_file(const char *path) const = 0;
     virtual void release(RenderTarget *target) const = 0;
+    virtual void release(RGBA *data) const = 0;
 };
 
 struct AppInterface {

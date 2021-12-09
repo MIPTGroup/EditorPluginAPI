@@ -53,9 +53,9 @@ union Vec2T {
     };
     T data[2];
 
-    Vec2f()         : x(0),   y(0)   {}
-    Vec2f(T val)    : x(val), y(val) {}
-    Vec2f(T x, T y) : x(x),   y(y)   {}
+    Vec2T()         : x(0),   y(0)   {}
+    Vec2T(T val)    : x(val), y(val) {}
+    Vec2T(T x, T y) : x(x),   y(y)   {}
 };
 
 using Vec2f = Vec2T<float>;
