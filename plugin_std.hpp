@@ -35,7 +35,6 @@ namespace P {
 class RenderTarget {
 public:
     virtual Vec2s get_size() const = 0;
-    virtual void set_size(Vec2s size) = 0;
 
     virtual RGBA get_pixel(size_t x, size_t y) const = 0;
     virtual void set_pixel(size_t x, size_t y, RGBA color) = 0;
