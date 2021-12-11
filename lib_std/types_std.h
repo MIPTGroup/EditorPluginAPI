@@ -76,6 +76,8 @@ union RGBA {
 };
 
 struct Shader {
+    virtual ~Shader() {}
+
     virtual void set_uniform_int      (const char *name, int  val) = 0;
     virtual void set_uniform_int_arr  (const char *name, int *val, size_t cnt) = 0;
 

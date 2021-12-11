@@ -3,17 +3,14 @@
 
 namespace P {
 
-class Button : public Widget {
+class Button : virtual public Widget {
 public:
     Button(const WBody &body, Widget *parent = nullptr) : Widget(body, parent) {}
 
     using HandlerType = std::function<void()>;
 
-    void set_handler(HandlerType &handler_) { handler = handler_; }
-    HandlerType &get_handler() { return handler; }
-
-protected:
-    HandlerType handler;
+    virtual void set_handler(const HandlerType &handler_) = 0;
+    virtual HandlerType &get_handler() = 0;
 };
 
 }

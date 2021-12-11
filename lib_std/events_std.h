@@ -33,6 +33,14 @@ struct Click {
     
 };
 
+struct Hide {
+    
+};
+
+struct Show {
+    
+};
+
 struct FractionChanged {
     Vec2f fraction;
 };

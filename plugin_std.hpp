@@ -23,6 +23,8 @@ namespace P {
 
 class RenderTarget {
 public:
+    virtual ~RenderTarget() {}
+
     virtual RenderTarget *get_copy() const = 0;
 
     virtual Vec2s get_size() const = 0;
@@ -83,7 +85,7 @@ struct PluginInterface {
     virtual Status deinit()                  const = 0;
     virtual void   dump()                    const = 0;
 
-    virtual void on_tick(double dt)   const = 0;
+    virtual void on_tick(double dt) const = 0;
 
     virtual void effect_apply() const = 0;
 
@@ -94,9 +96,10 @@ struct PluginInterface {
 
 struct WidgetFactory {
     virtual Button      *button       (const WBody &body, Widget *parent = nullptr) const = 0;
-    virtual Slider      *slider       (const WBody &body, Widget *parent = nullptr) const = 0;
+    virtual Button      *button       (const P::Vec2f &pos, const char *caption, P::Widget *parent = nullptr) const = 0; // button fit to contain caption
+    virtual Slider      *slider       (Slider::Type type, const WBody &body, Widget *parent = nullptr) const = 0;
     virtual TextField   *text_field   (const WBody &body, Widget *parent = nullptr) const = 0;
-    virtual Window      *window       (const WBody &body, Widget *parent = nullptr) const = 0;
+    virtual Window      *window       (const char *name, const WBody &body, Widget *parent = nullptr) const = 0;
     virtual ColorPicker *color_picker (const WBody &body, Widget *parent = nullptr) const = 0;
     virtual Label       *label        (const WBody &body, Widget *parent = nullptr) const = 0;
     virtual Widget      *abstract     (const WBody &body, Widget *parent = nullptr) const = 0;
