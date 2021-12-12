@@ -14,7 +14,7 @@ class Extensioner {
 public:
     Extensioner() {}
     
-    void *get(const std::string_view &name) {
+    void *get(const std::string_view &name) const {
         auto ext = extensions.find(name);
         if (ext == extensions.end()) return nullptr;
 
