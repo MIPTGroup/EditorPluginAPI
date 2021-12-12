@@ -88,6 +88,9 @@ struct Shader {
 struct RenderMode {
     BlendMode blend;
     Shader *shader;
+
+    RenderMode() : blend(BlendMode::ALPHA_BLEND), shader(nullptr) {}
+    RenderMode(const BlendMode &blend, Shader *shader = nullptr) : blend(blend), shader(shader) {}
 };
 
 }

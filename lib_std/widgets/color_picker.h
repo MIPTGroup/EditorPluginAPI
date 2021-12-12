@@ -3,14 +3,14 @@
 
 namespace P {
 
-class ColorPicker : public Widget {
+class ColorPicker : virtual public Widget {
 public:
     ColorPicker(const WBody &body, Widget *parent = nullptr) : Widget(body, parent) {}
 
     using HandlerType = std::function<void(RGBA)>;
 
-    void set_handler(HandlerType &handler_) { handler = handler_; }
-    HandlerType &get_handler() { return handler; }
+    virtual void set_handler(const HandlerType &handler_) = 0;
+    virtual HandlerType &get_handler() = 0;
 
     virtual RGBA get_color() = 0;
     virtual void set_color(RGBA color) = 0;

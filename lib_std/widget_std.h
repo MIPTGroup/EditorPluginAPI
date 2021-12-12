@@ -61,7 +61,7 @@ public:
     virtual void show() = 0;
 
     virtual void set_caption(const char *text, size_t font_size, const Vec2f *pos = nullptr) = 0;
-    virtual void set_color(P::RGBA color) = 0;
+    virtual void set_base_color(P::RGBA color) = 0;
 
 protected:
     WBody body;

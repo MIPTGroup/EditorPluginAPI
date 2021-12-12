@@ -32,18 +32,18 @@ public:
     virtual RGBA get_pixel(size_t x, size_t y) const = 0;
     virtual void set_pixel(size_t x, size_t y, RGBA color) = 0;
 
-    virtual RGBA *get_pixels() = 0;
+    virtual RGBA *get_pixels() const = 0;
 
     virtual void clear(RGBA color = 0) = 0; // fills the target with `color`
 
 // render
-    virtual void render_circle(Vec2f position, float radius, RGBA color, const RenderMode *render_mode) = 0;
-    virtual void render_line(Vec2f start, Vec2f end, RGBA color, const RenderMode *render_mode) = 0;
-    virtual void render_triangle(Vec2f p1, Vec2f p2, Vec2f p3, RGBA color, const RenderMode *render_mode) = 0;
-    virtual void render_rectangle(Vec2f p1, Vec2f p2, RGBA color, const RenderMode *render_mode) = 0;
+    virtual void render_circle(Vec2f position, float radius, RGBA color, const RenderMode &render_mode = {}) = 0;
+    virtual void render_line(Vec2f start, Vec2f end, RGBA color, const RenderMode &render_mode = {}) = 0;
+    virtual void render_triangle(Vec2f p1, Vec2f p2, Vec2f p3, RGBA color, const RenderMode &render_mode = {}) = 0;
+    virtual void render_rectangle(Vec2f p1, Vec2f p2, RGBA color, const RenderMode &render_mode = {}) = 0;
     
-    virtual void render_texture(Vec2f position, const RenderTarget *texture, const RenderMode *render_mode) = 0;
-    virtual void render_pixels(Vec2f position, const RGBA *data, size_t width, size_t height, const RenderMode *render_mode) = 0;
+    virtual void render_texture(Vec2f position, const RenderTarget *texture, const RenderMode &render_mode = {}) = 0;
+    virtual void render_pixels(const Vec2f &position, const Vec2s &size, const RGBA *data, const RenderMode &render_mode = {}) = 0;
 
     virtual void apply_shader(const Shader *shader) = 0;
 };
@@ -90,32 +90,37 @@ struct PluginInterface {
     virtual void effect_apply() const = 0;
 
     virtual void tool_on_press  (Vec2f position)       const = 0;
-    virtual void tool_on_release(Vec2f position)       const = 0;
+    virtual void tool_on_release(Vec2f position)       const = 0;   
     virtual void tool_on_move   (Vec2f from, Vec2f to) const = 0;
+
+    virtual void show_settings() const = 0;
 };
 
 struct WidgetFactory {
+    virtual ~WidgetFactory() {}
+
     virtual Button      *button       (const WBody &body, Widget *parent = nullptr) const = 0;
     virtual Button      *button       (const P::Vec2f &pos, const char *caption, P::Widget *parent = nullptr) const = 0; // button fit to contain caption
     virtual Slider      *slider       (Slider::Type type, const WBody &body, Widget *parent = nullptr) const = 0;
     virtual TextField   *text_field   (const WBody &body, Widget *parent = nullptr) const = 0;
     virtual Window      *window       (const char *name, const WBody &body, Widget *parent = nullptr) const = 0;
     virtual ColorPicker *color_picker (const WBody &body, Widget *parent = nullptr) const = 0;
-    virtual Label       *label        (const WBody &body, Widget *parent = nullptr) const = 0;
+    virtual Label       *label        (const P::Vec2f &pos, const char *text, Widget *parent = nullptr) const = 0;
     virtual Widget      *abstract     (const WBody &body, Widget *parent = nullptr) const = 0;
 };
 
 struct ShaderFactory {
+    virtual ~ShaderFactory() {}
+
     virtual Shader *compile (const char *code, ShaderType type, bool is_code = true) const = 0;
-    virtual void    release (Shader *)                                               const = 0;
 };
 
 struct RenderTargetFactory {
+    virtual ~RenderTargetFactory() {}
+
     virtual RenderTarget *spawn(Vec2s size, RGBA color = {0, 0, 0, 255}) const = 0; // color -> fill with it
     virtual RenderTarget *from_pixels(Vec2s size, const RGBA *data) const = 0;
     virtual RenderTarget *from_file(const char *path) const = 0;
-    virtual void release(RenderTarget *target) const = 0;
-    virtual void release(RGBA *data) const = 0;
 };
 
 struct AppInterface {
@@ -147,10 +152,15 @@ struct AppInterface {
     virtual RGBA get_color() const = 0;
     virtual float get_size() const = 0;
 
+    virtual void set_color(RGBA color) const = 0;
+    virtual void set_size(float size) const = 0;
+
 // target
     virtual RenderTarget *get_target()  const = 0; // returns actual active  layer, drawing in it changes app's layer
     virtual RenderTarget *get_preview() const = 0; // returns actual preview layer, drawing in it changes app's layer
     virtual void flush_preview()        const = 0;
+
+    virtual ~AppInterface() {}
 };
 
 }
