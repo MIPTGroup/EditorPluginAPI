@@ -54,35 +54,64 @@ extern "C" const P::PluginInterface *get_plugin_interface() {
  
 // ============================================================================ Logic
 
-RadioButton::RadioButton(const P::AppInterface *app_interface, const P::WBody &body, P::Widget *parent, P::RGBA first, P::RGBA second) :
-AbstractWidget(body, parent),
+class MyRadioButton : public RadioButton {
+    bool on;
+    P::RenderTarget *one;
+    P::RenderTarget *two;
+
+    const P::AppInterface *APPI;
+
+    HandlerType handler;
+
+public:
+    MyRadioButton(const P::AppInterface *app_interface, const P::WBody &body, P::Widget *parent = nullptr, P::RGBA first = {200, 100, 100}, P::RGBA second = {100, 200, 100});
+
+    virtual ~MyRadioButton();
+
+    virtual void on_mouse_press(const P::Event::MousePress &event) override;
+
+    virtual bool get_on() const override;
+    virtual void set_on(bool flag) override;
+
+    virtual void set_handler(const HandlerType &handler_) override { handler = handler_; }
+    virtual HandlerType &get_handler() override { return handler; }
+};
+
+MyRadioButton::MyRadioButton(const P::AppInterface *app_interface, const P::WBody &body, P::Widget *parent, P::RGBA first, P::RGBA second) :
+RadioButton(body, parent),
+// AbstractWidget(body, parent),
 on(false),
 one(nullptr),
 two(nullptr),
 APPI(app_interface)
 {
-    one = APPI->factory.target->spawn({(size_t) body.size.x, (size_t) body.size.y}, first);
-    texture = two = APPI->factory.target->spawn({(size_t) body.size.x, (size_t) body.size.y}, second);
+    one = APPI->factory.target->spawn({(size_t) body.size.x, (size_t) body.size.y}, second);
+    two = APPI->factory.target->spawn({(size_t) body.size.x, (size_t) body.size.y}, first);
+
+    set_on(on);
 }
 
-RadioButton::~RadioButton() {
+MyRadioButton::~MyRadioButton() {
     delete one;
     delete two;
 }
 
-void RadioButton::on_mouse_press(const P::Event::MousePress &event) {
+void MyRadioButton::on_mouse_press(const P::Event::MousePress &event) {
     if (!is_inside(event.position)) {
         return;
     }
 
     set_on(!on);
+    if (handler) {
+        handler();
+    }
 }
 
-bool RadioButton::get_on() const {
+bool MyRadioButton::get_on() const {
     return on;
 }
 
-void RadioButton::set_on(bool flag) {
+void MyRadioButton::set_on(bool flag) {
     on = flag;
     if (on) {
         texture = one;
@@ -93,7 +122,7 @@ void RadioButton::set_on(bool flag) {
 
 struct MySuperWidgetFabric : public SuperWidgetFabric {
     virtual RadioButton *radio_button(const P::WBody &body, P::Widget *parent = nullptr, P::RGBA first = {200, 100, 100}, P::RGBA second = {100, 200, 100}) override {
-        return new RadioButton(APPI, body, parent, first, second);
+        return new MyRadioButton(APPI, body, parent, first, second);
     }
 };
 
