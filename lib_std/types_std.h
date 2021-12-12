@@ -20,6 +20,7 @@ enum FeatureLevel {
 enum PluginType {
     EFFECT,
     TOOL,
+    EXTENSION
 };
 
 enum BlendMode {
