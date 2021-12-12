@@ -148,6 +148,9 @@ struct AppInterface {
     // returns given interface, if it is implemented in the specified (enabled) extension
     virtual void *ext_get_interface(const char *extension, const char *name) const = 0;
 
+    // registers plugin as the holder of functions and interfaces for an extension
+    virtual void ext_register_as(const char *extension) const = 0;
+
 // general
     virtual void log(const char *fmt, ...) const = 0;
     virtual double get_absolute_time()     const = 0;
