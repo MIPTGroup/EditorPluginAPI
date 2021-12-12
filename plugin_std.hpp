@@ -30,19 +30,19 @@ public:
     virtual Vec2s get_size() const = 0;
 
     virtual RGBA get_pixel(size_t x, size_t y) const = 0;
-    virtual void set_pixel(size_t x, size_t y, RGBA color) = 0;
+    virtual void set_pixel(size_t x, size_t y, const RGBA &color) = 0;
 
     virtual RGBA *get_pixels() const = 0;
 
-    virtual void clear(RGBA color = 0) = 0; // fills the target with `color`
+    virtual void clear(const RGBA &color = 0) = 0; // fills the target with `color`
 
 // render
-    virtual void render_circle(Vec2f position, float radius, RGBA color, const RenderMode &render_mode = {}) = 0;
-    virtual void render_line(Vec2f start, Vec2f end, RGBA color, const RenderMode &render_mode = {}) = 0;
-    virtual void render_triangle(Vec2f p1, Vec2f p2, Vec2f p3, RGBA color, const RenderMode &render_mode = {}) = 0;
-    virtual void render_rectangle(Vec2f p1, Vec2f p2, RGBA color, const RenderMode &render_mode = {}) = 0;
+    virtual void render_circle(const Vec2f &position, float radius, const RGBA &color, const RenderMode &render_mode = {}) = 0;
+    virtual void render_line(const Vec2f &start, const Vec2f &end, const RGBA &color, const RenderMode &render_mode = {}) = 0;
+    virtual void render_triangle(const Vec2f &p1, const Vec2f &p2, const Vec2f &p3, const RGBA &color, const RenderMode &render_mode = {}) = 0;
+    virtual void render_rectangle(const Vec2f &p1, const Vec2f &p2, const RGBA &color, const RenderMode &render_mode = {}) = 0;
     
-    virtual void render_texture(Vec2f position, const RenderTarget *texture, const RenderMode &render_mode = {}) = 0;
+    virtual void render_texture(const Vec2f &position, const RenderTarget *texture, const RenderMode &render_mode = {}) = 0;
     virtual void render_pixels(const Vec2f &position, const Vec2s &size, const RGBA *data, const RenderMode &render_mode = {}) = 0;
 
     virtual void apply_shader(const Shader *shader) = 0;
@@ -89,9 +89,9 @@ struct PluginInterface {
 
     virtual void effect_apply() const = 0;
 
-    virtual void tool_on_press  (Vec2f position)       const = 0;
-    virtual void tool_on_release(Vec2f position)       const = 0;   
-    virtual void tool_on_move   (Vec2f from, Vec2f to) const = 0;
+    virtual void tool_on_press  (const Vec2f &position)              const = 0;
+    virtual void tool_on_release(const Vec2f &position)              const = 0;
+    virtual void tool_on_move   (const Vec2f &from, const Vec2f &to) const = 0;
 
     virtual void show_settings() const = 0;
 };
@@ -118,8 +118,8 @@ struct ShaderFactory {
 struct RenderTargetFactory {
     virtual ~RenderTargetFactory() {}
 
-    virtual RenderTarget *spawn(Vec2s size, RGBA color = {0, 0, 0, 255}) const = 0; // color -> fill with it
-    virtual RenderTarget *from_pixels(Vec2s size, const RGBA *data) const = 0;
+    virtual RenderTarget *spawn(const Vec2s &size, const RGBA &color = {0, 0, 0, 255}) const = 0; // color -> fill with it
+    virtual RenderTarget *from_pixels(const Vec2s &size, const RGBA *data) const = 0;
     virtual RenderTarget *from_file(const char *path) const = 0;
 };
 
