@@ -72,13 +72,13 @@ struct PluginInterface {
     void *reserved;
 
     // enables specified extension
-    virtual bool enable(const char *name) const = 0;
+    virtual bool ext_enable(const char *name) const = 0;
 
     // returns given function, if it is implemented in the specified (enabled) extension
-    virtual void *get_func(const char *extension, const char *func) const = 0;
+    virtual void *ext_get_func(const char *extension, const char *func) const = 0;
 
     // returns given interface, if it is implemented in the specified (enabled) extension
-    virtual void *get_interface(const char *extension, const char *name) const = 0;
+    virtual void *ext_get_interface(const char *extension, const char *name) const = 0;
 
     virtual const  PluginInfo *get_info()    const = 0;
     virtual Status init(const AppInterface*) const = 0;
@@ -137,13 +137,13 @@ struct AppInterface {
 
 // extension
     // enables specified extension
-    virtual bool enable(std::string_view name) const = 0;
+    virtual bool ext_enable(const char *name) const = 0;
 
     // returns given function, if it is implemented in the specified (enabled) extension
-    virtual void *get_func(std::string_view extension, std::string_view func) const = 0;
+    virtual void *ext_get_func(const char *extension, const char *func) const = 0;
     
     // returns given interface, if it is implemented in the specified (enabled) extension
-    virtual void *get_interface(const char *extension, const char *name) const = 0;
+    virtual void *ext_get_interface(const char *extension, const char *name) const = 0;
 
 // general
     virtual void log(const char *fmt, ...) const = 0;
