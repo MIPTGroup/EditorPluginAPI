@@ -1,3 +1,6 @@
+#ifndef P_EVENT_STD_H
+#define P_EVENTS_STD_H
+
 #include "types_std.h"
 #include "keyboard_std.h"
 
@@ -53,3 +56,5 @@ struct Scroll {
 
 }
 }
+
+#endif // P_EVENT_STD_H

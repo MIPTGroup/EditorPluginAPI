@@ -1,10 +1,12 @@
-#pragma once
+#ifndef P_KEYBOARD_STD_H
+#define P_KEYBOARD_STD_H
 
 
 #include <SFML/Window/Keyboard.hpp>
 #include <cstdint>
 #include <cctype>
 #include <cstring>
+
 
 namespace P {
 namespace Keyboard {
@@ -269,3 +271,5 @@ struct KeyUp : public Key {
 
 }
 }
+
+#endif // P_KEYBOARD_STD_H

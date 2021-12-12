@@ -6,19 +6,22 @@
 
 #include "lib_std/types_std.h"
 #include "lib_std/widgets/collection.h"
+#include "lib_std/extensioner_std.h"
 
+
+namespace P {
+
+constexpr uint32_t STD_VERSION = 0x00010000;
+
+constexpr char EXT_STD[] = "std";
 
 // this function is only defined in plugin. call it to get PluginInterface to interact with plugin
 // make sure you wrap it into extern C section to avoid mangling
 // const PluginInterface *get_plugin_interface();
 
-constexpr char PGET_INTERFACE_FUNC[] = "get_plugin_interface";
-constexpr uint32_t PSTD_VERSION = 0x00010000;
+constexpr char GET_INTERFACE_FUNC[] = "get_plugin_interface";
 
-constexpr char PEXT_STD[] = "std";
-
-
-namespace P {
+// ============================================================================
 
 
 class RenderTarget {
@@ -68,7 +71,7 @@ struct PluginInfo {
 
 struct AppInterface;
 struct PluginInterface {
-    PluginInterface(uint32_t std_version = PSTD_VERSION, void* reserved = nullptr) :
+    PluginInterface(uint32_t std_version = STD_VERSION, void* reserved = nullptr) :
         std_version(std_version), reserved(reserved) {}
 
     uint32_t std_version;
