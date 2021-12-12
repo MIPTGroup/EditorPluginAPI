@@ -39,9 +39,9 @@ public:
 
     virtual bool add_child(Widget *child) = 0;
 
-    virtual void set_to_delete(bool to_delete_) = 0; // set to true -> app will try to delete it as soon as possible from its side
-                                                     // after once setting to true you can not use this widget anymore, it can 
-                                                     // already be deleted
+    virtual void set_to_delete() = 0; // set to true -> app will try to delete it as soon as possible from its side
+                                      // after once setting to true you can not use this widget anymore, it can 
+                                      // already be deleted
     virtual bool delete_child(Widget *child) = 0;
     virtual bool delete_from_parent() = 0;
     
