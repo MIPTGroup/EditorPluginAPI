@@ -1,5 +1,5 @@
-#ifndef TYPES_STD_H
-#define TYPES_STD_H
+#ifndef P_TYPES_STD_H
+#define P_TYPES_STD_H
 
 #include <cstdint>
 #include <cmath>
@@ -95,4 +95,4 @@ struct RenderMode {
 
 }
 
-#endif // TYPES_STD_H
+#endif // P_TYPES_STD_H

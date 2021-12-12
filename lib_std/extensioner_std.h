@@ -1,5 +1,5 @@
-#ifndef P_EVENT_STD_H
-#define P_EVENT_STD_H
+#ifndef P_EXTENSIONER_STD_H
+#define P_EXTENSIONER_STD_H
 
 
 #include <map>
@@ -26,4 +26,4 @@ public:
 
 }
 
-#endif // P_EVENT_STD_H
+#endif // P_EXTENSIONER_STD_H
