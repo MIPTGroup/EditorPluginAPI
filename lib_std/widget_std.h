@@ -35,7 +35,7 @@ public:
     virtual void set_texture(RenderTarget *texture_) = 0;
 
     virtual bool is_active() = 0;
-    virtual bool is_inside(Vec2f pos) = 0;
+    virtual bool is_inside(const Vec2f &pos) = 0;
 
     virtual bool add_child(Widget *child) = 0;
 
@@ -62,7 +62,7 @@ public:
     virtual void focus() = 0;
 
     virtual void set_caption(const char *text, size_t font_size, const Vec2f *pos = nullptr) = 0;
-    virtual void set_base_color(PUPPY::RGBA color) = 0;
+    virtual void set_base_color(const PUPPY::RGBA &color) = 0;
 };
 
 }

@@ -17,7 +17,7 @@ public:
     virtual HandlerType &get_handler() { return handler; }
 
     virtual Vec2f get_fraction_2d() = 0;
-    virtual void set_fraction_2d(Vec2f frac) = 0;
+    virtual void set_fraction_2d(const Vec2f &frac) = 0;
 
     virtual float get_fraction() = 0;
     virtual void set_fraction(float frac) = 0;
