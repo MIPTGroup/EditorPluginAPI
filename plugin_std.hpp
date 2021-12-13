@@ -164,6 +164,9 @@ struct AppInterface {
     virtual void set_color(const PUPPY::RGBA &color) const = 0;
     virtual void set_size(float size) const = 0;
 
+    virtual const std::vector<WBody> &get_windows() const = 0;
+    virtual Widget *get_root_widget() const = 0;
+
 // target
     virtual RenderTarget *get_target()  const = 0; // returns actual active  layer, drawing in it changes app's layer
     virtual RenderTarget *get_preview() const = 0; // returns actual preview layer, drawing in it changes app's layer
