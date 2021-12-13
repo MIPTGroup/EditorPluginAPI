@@ -11,8 +11,6 @@ public:
         D2 // 2d - can not be available, check value returned by the factory
     };
 
-    Slider(const WBody &body, Widget *parent = nullptr) : Widget(body, parent) {}
-
     using HandlerType = std::function<void(Vec2f)>;
 
     virtual void set_handler(const HandlerType &handler_) { handler = handler_; }

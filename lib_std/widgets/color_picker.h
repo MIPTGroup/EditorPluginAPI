@@ -5,8 +5,6 @@ namespace PUPPY {
 
 class ColorPicker : virtual public Widget {
 public:
-    ColorPicker(const WBody &body, Widget *parent = nullptr) : Widget(body, parent) {}
-
     using HandlerType = std::function<void(RGBA)>;
 
     virtual void set_handler(const HandlerType &handler_) = 0;

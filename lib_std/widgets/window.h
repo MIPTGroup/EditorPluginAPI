@@ -5,8 +5,6 @@ namespace PUPPY {
 
 class Window : virtual public Widget {
 public:
-    Window(const WBody &body, Widget *parent = nullptr) : Widget(body, parent) {}
-
     using HandlerType = std::function<void()>;
 
     virtual void set_show_handler(HandlerType &handler_) = 0;

@@ -6,8 +6,6 @@ namespace PUPPY {
 
 class TextField : virtual public Widget {
 public:
-    TextField(const WBody &body, Widget *parent = nullptr) : Widget(body, parent) {}
-
     using HandlerType = std::function<void(std::string_view)>;
 
     virtual void set_handler(const HandlerType &handler_) = 0;
