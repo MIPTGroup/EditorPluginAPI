@@ -13,7 +13,7 @@ struct Render {
 };
 
 struct Tick {
-    float dt;
+    double dt;
 };
 
 
