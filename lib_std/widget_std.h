@@ -20,18 +20,6 @@ class RenderTarget;
 
 class Widget {
 public:
-    // Widget() {
-    //     set_body({{0, 0}, {0, 0}});
-    //     set_parent(nullptr);
-    //     set_texture(nullptr);
-    // }
-
-    // Widget(const WBody &body, Widget *parent = nullptr) : body(body), parent(parent), texture(nullptr) {
-    //     set_body(body);
-    //     set_parent(parent);
-    //     set_texture(nullptr);
-    // }
-
     virtual ~Widget() {}
 
     virtual void set_position(const Vec2f &position_) = 0;
@@ -69,8 +57,9 @@ public:
     virtual void on_hide            (const Event::Hide            &event) = 0;
     virtual void on_show            (const Event::Show            &event) = 0;
 
-    virtual void hide() = 0;
-    virtual void show() = 0;
+    virtual void hide()  = 0;
+    virtual void show()  = 0;
+    virtual void focus() = 0;
 
     virtual void set_caption(const char *text, size_t font_size, const Vec2f *pos = nullptr) = 0;
     virtual void set_base_color(PUPPY::RGBA color) = 0;
