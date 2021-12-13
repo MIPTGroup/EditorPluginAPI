@@ -5,7 +5,7 @@
 #include <cmath>
 
 
-namespace P {
+namespace PUPPY {
 
 enum Status {
     OK,

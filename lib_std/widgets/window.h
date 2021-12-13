@@ -1,7 +1,7 @@
 #include "../widget_std.h"
 
 
-namespace P {
+namespace PUPPY {
 
 class Window : virtual public Widget {
 public:

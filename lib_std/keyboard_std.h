@@ -8,7 +8,7 @@
 #include <cstring>
 
 
-namespace P {
+namespace PUPPY {
 namespace Keyboard {
 
 enum class Key {

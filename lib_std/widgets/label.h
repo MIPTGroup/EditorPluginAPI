@@ -2,7 +2,7 @@
 #include <string>
 
 
-namespace P {
+namespace PUPPY {
 
 class Label : virtual public Widget {
 public:

@@ -6,7 +6,7 @@
 #include <string_view>
 
 
-namespace P {
+namespace PUPPY {
 
 class Extensioner {
     std::map<std::string_view, void*> extensions;

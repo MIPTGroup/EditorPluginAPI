@@ -1,7 +1,7 @@
 #include "../widget_std.h"
 
 
-namespace P {
+namespace PUPPY {
 
 class Slider : virtual public Widget {
 public:

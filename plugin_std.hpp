@@ -9,7 +9,7 @@
 #include "lib_std/extensioner_std.h"
 
 
-namespace P {
+namespace PUPPY {
 
 constexpr uint32_t STD_VERSION = 0x00010000;
 
@@ -106,12 +106,12 @@ struct WidgetFactory {
     virtual ~WidgetFactory() {}
 
     virtual Button      *button       (const WBody &body, Widget *parent = nullptr) const = 0;
-    virtual Button      *button       (const P::Vec2f &pos, const char *caption, P::Widget *parent = nullptr) const = 0; // button fit to contain caption
+    virtual Button      *button       (const PUPPY::Vec2f &pos, const char *caption, PUPPY::Widget *parent = nullptr) const = 0; // button fit to contain caption
     virtual Slider      *slider       (Slider::Type type, const WBody &body, Widget *parent = nullptr) const = 0;
     virtual TextField   *text_field   (const WBody &body, Widget *parent = nullptr) const = 0;
     virtual Window      *window       (const char *name, const WBody &body, Widget *parent = nullptr) const = 0;
     virtual ColorPicker *color_picker (const WBody &body, Widget *parent = nullptr) const = 0;
-    virtual Label       *label        (const P::Vec2f &pos, const char *text, Widget *parent = nullptr) const = 0;
+    virtual Label       *label        (const PUPPY::Vec2f &pos, const char *text, Widget *parent = nullptr) const = 0;
     virtual Widget      *abstract     (const WBody &body, Widget *parent = nullptr) const = 0;
 };
 
@@ -161,7 +161,7 @@ struct AppInterface {
     virtual RGBA get_color() const = 0;
     virtual float get_size() const = 0;
 
-    virtual void set_color(const P::RGBA &color) const = 0;
+    virtual void set_color(const PUPPY::RGBA &color) const = 0;
     virtual void set_size(float size) const = 0;
 
 // target

@@ -10,7 +10,7 @@
 
 // ============================================================================ Info
 
-const auto PTYPE = P::EXTENSION;
+const auto PTYPE = PUPPY::EXTENSION;
 
 const char *PNAME    = "SuperWidget";
 const char *PVERSION = "69";
@@ -29,9 +29,9 @@ SuperWidgetFabric *r_super_fabric = nullptr;
 
 MyPluginInterface PINTERFACE;
 
-const P::PluginInfo PINFO =
+const PUPPY::PluginInfo PINFO =
 {
-    P::STD_VERSION, // std_version
+    PUPPY::STD_VERSION, // std_version
     nullptr,     // reserved
 
     &PINTERFACE,
@@ -45,10 +45,10 @@ const P::PluginInfo PINFO =
     PTYPE
 };
 
-const P::AppInterface *APPI = nullptr;
+const PUPPY::AppInterface *APPI = nullptr;
 
 
-extern "C" const P::PluginInterface *get_plugin_interface() {
+extern "C" const PUPPY::PluginInterface *get_plugin_interface() {
     return &PINTERFACE;
 }
  
@@ -56,19 +56,19 @@ extern "C" const P::PluginInterface *get_plugin_interface() {
 
 class MyRadioButton : public RadioButton {
     bool on;
-    P::RenderTarget *one;
-    P::RenderTarget *two;
+    PUPPY::RenderTarget *one;
+    PUPPY::RenderTarget *two;
 
-    const P::AppInterface *APPI;
+    const PUPPY::AppInterface *APPI;
 
     HandlerType handler;
 
 public:
-    MyRadioButton(const P::AppInterface *app_interface, const P::WBody &body, P::Widget *parent = nullptr, P::RGBA first = {200, 100, 100}, P::RGBA second = {100, 200, 100});
+    MyRadioButton(const PUPPY::AppInterface *app_interface, const PUPPY::WBody &body, PUPPY::Widget *parent = nullptr, PUPPY::RGBA first = {200, 100, 100}, PUPPY::RGBA second = {100, 200, 100});
 
     virtual ~MyRadioButton();
 
-    virtual void on_mouse_press(const P::Event::MousePress &event) override;
+    virtual void on_mouse_press(const PUPPY::Event::MousePress &event) override;
 
     virtual bool get_on() const override;
     virtual void set_on(bool flag) override;
@@ -77,7 +77,7 @@ public:
     virtual HandlerType &get_handler() override { return handler; }
 };
 
-MyRadioButton::MyRadioButton(const P::AppInterface *app_interface, const P::WBody &body, P::Widget *parent, P::RGBA first, P::RGBA second) :
+MyRadioButton::MyRadioButton(const PUPPY::AppInterface *app_interface, const PUPPY::WBody &body, PUPPY::Widget *parent, PUPPY::RGBA first, PUPPY::RGBA second) :
 RadioButton(body, parent),
 // AbstractWidget(body, parent),
 on(false),
@@ -96,7 +96,7 @@ MyRadioButton::~MyRadioButton() {
     delete two;
 }
 
-void MyRadioButton::on_mouse_press(const P::Event::MousePress &event) {
+void MyRadioButton::on_mouse_press(const PUPPY::Event::MousePress &event) {
     if (!is_inside(event.position)) {
         return;
     }
@@ -121,12 +121,12 @@ void MyRadioButton::set_on(bool flag) {
 }
 
 struct MySuperWidgetFabric : public SuperWidgetFabric {
-    virtual RadioButton *radio_button(const P::WBody &body, P::Widget *parent = nullptr, P::RGBA first = {200, 100, 100}, P::RGBA second = {100, 200, 100}) override {
+    virtual RadioButton *radio_button(const PUPPY::WBody &body, PUPPY::Widget *parent = nullptr, PUPPY::RGBA first = {200, 100, 100}, PUPPY::RGBA second = {100, 200, 100}) override {
         return new MyRadioButton(APPI, body, parent, first, second);
     }
 };
 
-P::Status MyPluginInterface::init(const P::AppInterface *app_interface) const {
+PUPPY::Status MyPluginInterface::init(const PUPPY::AppInterface *app_interface) const {
     srand(time(NULL));
 
     APPI = app_interface;
@@ -137,36 +137,36 @@ P::Status MyPluginInterface::init(const P::AppInterface *app_interface) const {
     PINTERFACE.exts.set("SuperWidgetFabric", r_super_fabric);
 
     APPI->log("[plugin](%s) inited", PINFO.name);
-    return P::OK;
+    return PUPPY::OK;
 }
 
-P::Status MyPluginInterface::deinit() const {
+PUPPY::Status MyPluginInterface::deinit() const {
     delete r_super_fabric;
 
     APPI->log("[plugin](%s) deinited | %s thanks you for using it", PINFO.name, PINFO.author);
-    return P::OK;
+    return PUPPY::OK;
 }
 
 void MyPluginInterface::dump() const {
     APPI->log("[plugin](%s) is active", PINFO.name);
 }
 
-const P::PluginInfo *MyPluginInterface::get_info() const {
+const PUPPY::PluginInfo *MyPluginInterface::get_info() const {
     return &PINFO;
 }
 
 void MyPluginInterface::on_tick(double /*dt*/) const {
 }
 
-void MyPluginInterface::tool_on_press(const P::Vec2f &pos) const {
+void MyPluginInterface::tool_on_press(const PUPPY::Vec2f &pos) const {
     draw(pos);
 }
 
-void MyPluginInterface::tool_on_move(const P::Vec2f &/*from*/, const P::Vec2f &to) const {
+void MyPluginInterface::tool_on_move(const PUPPY::Vec2f &/*from*/, const PUPPY::Vec2f &to) const {
     draw(to);
 }
 
-void MyPluginInterface::tool_on_release(const P::Vec2f &/*pos*/) const {}
+void MyPluginInterface::tool_on_release(const PUPPY::Vec2f &/*pos*/) const {}
 
 void MyPluginInterface::effect_apply() const {}
 
@@ -200,24 +200,24 @@ void printstr(const char *str) {
     APPI->log(str);
 }
 
-void slfn(P::Vec2f frac) {
+void slfn(PUPPY::Vec2f frac) {
     printf("frac is %f %f\n", frac.x, frac.y);
 }
 
-typedef void (*generate_triangle_type)(const P::Vec2f &pos, float radius, P::Vec2f &p1, P::Vec2f &p2, P::Vec2f &p3);
+typedef void (*generate_triangle_type)(const PUPPY::Vec2f &pos, float radius, PUPPY::Vec2f &p1, PUPPY::Vec2f &p2, PUPPY::Vec2f &p3);
 
-void MyPluginInterface::draw(const P::Vec2f &pos) const {
+void MyPluginInterface::draw(const PUPPY::Vec2f &pos) const {
     // auto layout = APPI->factory.widget->window("opts", {pos, {400, 200}});
     // layout->set_name("abobs");
 
     // auto b1 = APPI->factory.widget->button({0, 0}, "TOUCH ME", layout);
     // b1->set_handler(func);
     
-    // P::Vec2f p = b1->get_body().position;
+    // PUPPY::Vec2f p = b1->get_body().position;
     // p.x += b1->get_body().size.x;
     // p.y += b1->get_body().size.y;
 
-    // auto b2 = APPI->factory.widget->slider(P::Slider::Type::X, {p, {100, 40}}, layout);
+    // auto b2 = APPI->factory.widget->slider(PUPPY::Slider::Type::X, {p, {100, 40}}, layout);
     // b2->set_base_color({100, 200, 255});
     // b2->set_handler(slfn);
 
@@ -229,17 +229,17 @@ void MyPluginInterface::draw(const P::Vec2f &pos) const {
     // layout->show();
 
     float size = APPI->get_size();
-    P::RGBA color = APPI->get_color();  
+    PUPPY::RGBA color = APPI->get_color();  
 
     APPI->ext_enable("sharpy");
     auto func = (generate_triangle_type) APPI->ext_get_func("sharpy", "generate_triangle");
 
-    P::Vec2f p0, p1, p2;
+    PUPPY::Vec2f p0, p1, p2;
     func(pos, size, p0, p1, p2);
 
     auto target = APPI->get_target();
     
-    target->render_triangle(p0, p1, p2, color, P::COPY);
+    target->render_triangle(p0, p1, p2, color, PUPPY::COPY);
     
     delete target;
 }

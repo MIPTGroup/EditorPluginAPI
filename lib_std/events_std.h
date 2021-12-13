@@ -5,7 +5,7 @@
 #include "keyboard_std.h"
 
 
-namespace P {
+namespace PUPPY {
 namespace Event {
 
 struct Render {

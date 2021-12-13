@@ -2,7 +2,7 @@
 #include <string>
 
 
-namespace P {
+namespace PUPPY {
 
 class TextField : virtual public Widget {
 public:
