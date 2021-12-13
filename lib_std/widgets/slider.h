@@ -13,17 +13,14 @@ public:
 
     using HandlerType = std::function<void(Vec2f)>;
 
-    virtual void set_handler(const HandlerType &handler_) { handler = handler_; }
-    virtual HandlerType &get_handler() { return handler; }
+    virtual void set_handler(const HandlerType &handler_) = 0;
+    virtual HandlerType &get_handler() = 0;
 
     virtual Vec2f get_fraction_2d() = 0;
     virtual void set_fraction_2d(const Vec2f &frac) = 0;
 
     virtual float get_fraction() = 0;
     virtual void set_fraction(float frac) = 0;
-
-protected:
-    HandlerType handler;
 };
 
 }

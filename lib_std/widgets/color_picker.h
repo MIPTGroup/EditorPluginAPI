@@ -12,9 +12,6 @@ public:
 
     virtual RGBA get_color() = 0;
     virtual void set_color(RGBA color) = 0;
-
-protected:
-    HandlerType handler;
 };
 
 }
