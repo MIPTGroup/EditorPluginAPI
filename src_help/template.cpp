@@ -1,6 +1,6 @@
-#include "plugin_std.hpp"
-#include "an_interface.h"
-#include "a_widget.h"
+#include "redactor/plugin_std/plugin_std.hpp"
+#include "plugin_interface.h"
+#include "abstract_widget.h"
 
 #include <cstdlib>
 #include <ctime>
