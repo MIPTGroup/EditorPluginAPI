@@ -25,7 +25,7 @@ public:
     virtual void set_position(const Vec2f &position_) = 0;
     virtual void set_size(const Vec2f &size_) = 0;
 
-    virtual WBody &get_body() = 0;
+    virtual WBody get_body() = 0;
     virtual void set_body(const WBody &body_) = 0;
 
     virtual Widget *get_parent() const = 0;
