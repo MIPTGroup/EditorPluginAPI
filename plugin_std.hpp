@@ -164,7 +164,7 @@ struct AppInterface {
     virtual void set_color(const PUPPY::RGBA &color) const = 0;
     virtual void set_size(float size) const = 0;
 
-    virtual const std::vector<WBody> &get_windows() const = 0;
+    virtual const std::vector<WBody> get_windows() const = 0;
     virtual Widget *get_root_widget() const = 0;
 
 // target
