@@ -23,7 +23,13 @@ constexpr char EXT_STD[] = "std";
 struct PluginInterface;
 
 constexpr char GET_INTERFACE_FUNC[] = "get_plugin_interface";
+
 typedef PluginInterface* (*PluginGetInterfaceType)();
+#ifdef _WIN32
+#define PLUGIN_GETINTF_EXPORT __declspec(dllexport)
+#else
+#define PLUGIN_GETINTF_EXPORT
+#endif
 
 // ============================================================================
 
