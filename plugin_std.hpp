@@ -1,6 +1,7 @@
 #ifndef PLUGIN_STD_HPP
 #define PLUGIN_STD_HPP
 
+
 #include <filesystem>
 #include <string_view>
 
@@ -19,7 +20,10 @@ constexpr char EXT_STD[] = "std";
 // make sure you wrap it into extern C section to avoid mangling
 // const PluginInterface *get_plugin_interface();
 
+struct PluginInterface;
+
 constexpr char GET_INTERFACE_FUNC[] = "get_plugin_interface";
+typedef PluginInterface* (*PluginGetInterfaceType)();
 
 // ============================================================================
 
@@ -88,7 +92,7 @@ struct PluginInterface {
 
     virtual const  PluginInfo *get_info()    const = 0;
     virtual Status init(const AppInterface*, const std::filesystem::path& path = std::filesystem::path("./")) = 0;
-    virtual Status deinit()                        = 0;
+    virtual Status deinit()                  = 0;
     virtual void   dump()                    const = 0;
 
     virtual void on_tick(double dt) const = 0;
