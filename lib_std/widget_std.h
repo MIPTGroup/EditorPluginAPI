@@ -63,6 +63,9 @@ public:
 
     virtual void set_caption(const char *text, size_t font_size, const Vec2f *pos = nullptr) = 0;
     virtual void set_base_color(const PUPPY::RGBA &color) = 0;
+
+    // You are obliged to return nullptr from this in your plugins
+    virtual void *get_extra_data(void *arg) = 0;
 };
 
 }
