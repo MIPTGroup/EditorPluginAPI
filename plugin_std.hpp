@@ -1,7 +1,7 @@
 #ifndef PLUGIN_STD_HPP
 #define PLUGIN_STD_HPP
 
-
+#include <filesystem>
 #include <string_view>
 
 #include "lib_std/types_std.h"
